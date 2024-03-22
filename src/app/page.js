@@ -2,6 +2,7 @@ import Image from "next/image";
 import Logo from "@/assets/logo.svg"
 import User from "@/assets/person.svg"
 import Lock from "@/assets/lock.svg"
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -27,6 +28,7 @@ export default function Home() {
           <input type="password" name="" id="" placeholder="Senha" className=" ml-1 pl-1 w-full h-full outline-none"/>
         </div>
         <button type="submit" className=" mt-[4.5rem] bg-[#01499C] p-2 text-white font-semibold w-40 rounded-lg shadow-md hover:bg-white hover:text-[#01499C] transition duration-300">ACESSAR</button>
+        <Link href="/cadastro">cadastro</Link>
       </form>
     </main>
   );
