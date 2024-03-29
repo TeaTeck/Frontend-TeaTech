@@ -1,3 +1,5 @@
+'use client'
+
 import "../app/globals.css";
 import Image from "next/image";
 import Search from "@/assets/search.svg"
@@ -16,6 +18,7 @@ import { useState } from 'react';
 
 export function Navbar() {
     const [colapse, setColapse] = useState(true);
+    
     const toggleSidebar = () => {
         if (colapse == true) {
             document.getElementById("sidebar").style.transform = "translateX(0%)"
@@ -31,7 +34,7 @@ export function Navbar() {
             <header className=" shadow-lg w-screen h-16">
                 <ul className=" flex justify-between items-center w-full h-full ">
                     <li className=" flex justify-center items-center w-14 h-14 md:ml-9 ml-2 mr-3">
-                        <Image className=" w-full h-full"
+                        <Image priority className=" w-full h-full"
                             src={Logo}
                             alt="Logo"
                         />
