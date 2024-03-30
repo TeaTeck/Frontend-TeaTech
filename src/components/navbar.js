@@ -31,7 +31,7 @@ export function Navbar() {
 
     return (
         <main>
-            <header className=" shadow-lg w-screen h-16">
+            <header className=" max-md:fixed sticky max-md:top-0 z-10 shadow-lg w-screen h-16 bg-white">
                 <ul className=" flex justify-between items-center w-full h-full ">
                     <li className=" flex justify-center items-center w-14 h-14 md:ml-9 ml-2 mr-3">
                         <Image priority className=" w-full h-full"
@@ -44,7 +44,7 @@ export function Navbar() {
                             src={Search}
                             alt="Search"
                         />
-                        <input type="text" name="" id="" placeholder="" className=" pl-2 w-6/6 h-full outline-none text-[#00000077]" />
+                        <input type="text" name="" id="" placeholder="" className=" pl-2 w-[60%] h-full outline-none text-[#00000077]" />
                     </li>
                     <li className=" md:mr-9 flex md:justify-between justify-center items-center w-20 h-8">
                         <button type="button">
@@ -68,8 +68,8 @@ export function Navbar() {
                     </li>
                 </ul>
             </header>
-            <aside className=" fixed h-screen w-12 bg-[#3182B0] flex justify-center items-start max-md:-translate-x-full transition duration-300" id="sidebar">
-                <ul className=" flex flex-col justify-between items-center w-full h-[88%]">
+            <aside className=" fixed h-screen w-12 top-0 z-0 bg-[#3182B0] flex justify-center items-start max-md:-translate-x-full transition duration-300" id="sidebar">
+                <ul className=" mt-16 flex flex-col justify-between items-center w-full h-[88%]">
                     <li className=" mt-5">
                         <ul className=" flex flex-col justify-evenly items-center w-full">
                             <li className="sidemenu">
