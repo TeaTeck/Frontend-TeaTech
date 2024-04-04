@@ -20,6 +20,9 @@ export default function Login() {
         const response = await fetch(`http://localhost:5149/api/user/login?email=${userData.email}&password=${userData.password}`, {
             method: 'POST'
         });
+        
+        const data = await response.json()
+        console.log(data)
     }
 
     function route() {
