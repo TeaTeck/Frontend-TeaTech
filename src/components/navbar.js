@@ -39,13 +39,6 @@ export function Navbar() {
                             alt="Logo"
                         />
                     </li>
-                    <li className=" flex p-[6px] md:p-0 md:w-[450px] md:pt-[6px] md:pb-[6px] rounded-xl border border-stone-400">
-                        <Image className=" w-6 opacity-60 ml-1"
-                            src={Search}
-                            alt="Search"
-                        />
-                        <input type="text" name="" id="" placeholder="" className=" pl-2 w-[60%] h-full outline-none text-[#00000077]" />
-                    </li>
                     <li className=" md:mr-9 flex md:justify-between justify-center items-center w-20 h-8">
                         <button type="button">
                             <Image className=" w-6 max-md:hidden"
