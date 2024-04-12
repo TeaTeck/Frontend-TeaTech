@@ -1,19 +1,20 @@
+'use client'
+
 import { Navbar } from "@/components/navbar"
-import { hasCookie } from 'cookies-next';
-import { redirect } from 'next/navigation'
 
 export default function Home() {
-  (function () {
-    if (hasCookie('login') === false) {
-      redirect(`login`)
-    }
-  })();
+  function deslogar() {
+    localStorage.clear()
+    window.location.reload()
+  }
 
   return (
     <>
       <Navbar />
       <div className=" md:ml-24 mt-8">
-
+        <button className=" border border-black p-5 rounded-md" onClick={deslogar}>
+          Deslogar
+        </button>
       </div>
     </>
   )

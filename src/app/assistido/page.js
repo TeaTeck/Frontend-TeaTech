@@ -1,8 +1,6 @@
 'use client'
 
 import { Navbar } from "@/components/navbar"
-import Image from "next/image";
-import Upload from "@/assets/upload.svg"
 
 export default function Assistido() {
 

@@ -1,6 +1,6 @@
 import { Navbar } from "@/components/navbar"
 
-export default function Funcionario() {
+export default function Lista() {
 
     return (
         <>

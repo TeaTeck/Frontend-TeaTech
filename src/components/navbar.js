@@ -2,21 +2,29 @@
 
 import "../app/globals.css";
 import Image from "next/image";
-import Search from "@/assets/search.svg"
 import User from "@/assets/person.svg"
 import Menu from "@/assets/menu.svg"
 import Home from "@/assets/home.svg"
 import Status from "@/assets/status.svg"
 import Calendar from "@/assets/calendar.svg"
 import Config from "@/assets/config.svg"
-import Sumary from "@/assets/sumary.svg"
+import Summary from "@/assets/sumary.svg"
 import Sheet from "@/assets/sheet.svg"
 import Logo from "@/assets/logo.png"
 import Profile from "@/assets/profile.svg"
-import Notfication from '@/assets/notifications.svg'
+import Notification from '@/assets/notifications.svg'
 import { useState } from 'react';
+import Link from "next/link";
+import { redirect } from 'next/navigation'
 
 export function Navbar() {
+
+    (function () {
+        if (localStorage.getItem('token') === null) {
+          redirect(`login`)
+        }
+    })();
+
     const [colapse, setColapse] = useState(true);
     
     const toggleSidebar = () => {
@@ -42,8 +50,8 @@ export function Navbar() {
                     <li className=" md:mr-9 flex md:justify-between justify-center items-center w-20 h-8">
                         <button type="button">
                             <Image className=" w-6 max-md:hidden"
-                                src={Notfication}
-                                alt="Notfication"
+                                src={Notification}
+                                alt="Notification"
                             />
                         </button>
                         <button type="button">
@@ -66,20 +74,20 @@ export function Navbar() {
                     <li className=" mt-5">
                         <ul className=" flex flex-col justify-evenly items-center w-full">
                             <li className="sidemenu">
-                                <button type="button">
+                                <Link href="/">
                                     <Image className=" w-6"
                                         src={Home}
                                         alt="Home"
                                     />
-                                </button>
+                                </Link>
                             </li>
                             <li className="sidemenu">
-                                <button type="button">
+                                <Link href="/lista">
                                     <Image className=" w-6"
-                                        src={Sumary}
-                                        alt="Sumary"
+                                        src={Summary}
+                                        alt="Summary"
                                     />
-                                </button>
+                                </Link>
                             </li>
                             <li className="sidemenu">
                                 <button type="button">

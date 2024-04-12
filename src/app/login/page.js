@@ -4,13 +4,20 @@ import Image from "next/image";
 import Logo from "@/assets/logo.svg"
 import User from "@/assets/person.svg"
 import Lock from "@/assets/lock.svg"
-import { useRouter } from "next/navigation";
+import { redirect } from 'next/navigation'
 
 export default function Login() {
-    const router = useRouter()
+
+    (function () {
+        if (localStorage.getItem('token') != null) {
+            redirect('/')
+        }
+    })();
 
     async function onSubmit(event) {
-        event.preventDefault();
+        event.preventDefault()
+        localStorage.clear()
+
         const formData = event.target;
         const userData = {
             email: formData.elements[0].value,
@@ -22,7 +29,9 @@ export default function Login() {
         });
         
         const data = await response.json()
-        console.log(data)
+        localStorage.setItem('token', data.token)
+
+        window.location.reload()
     }
 
     function route() {
