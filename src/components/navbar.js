@@ -19,12 +19,6 @@ import { redirect } from 'next/navigation'
 
 export function Navbar() {
 
-    (function () {
-        if (localStorage.getItem('token') === null) {
-          redirect(`login`)
-        }
-    })();
-
     const [colapse, setColapse] = useState(true);
     
     const toggleSidebar = () => {

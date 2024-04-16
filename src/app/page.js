@@ -1,8 +1,12 @@
 'use client'
 
 import { Navbar } from "@/components/navbar"
+import { NotLoggedRedirect } from '@/api/redirect'
 
 export default function Home() {
+
+  NotLoggedRedirect()
+  
   function deslogar() {
     localStorage.clear()
     window.location.reload()

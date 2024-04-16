@@ -1,6 +1,7 @@
 'use client'
 
 import { Navbar } from "@/components/navbar"
+import { RegisterAssistido } from '@/api/register'
 
 export default function Assistido() {
 
@@ -17,15 +18,7 @@ export default function Assistido() {
             }
         });
 
-        const response = await fetch(`http://localhost:5149/api/childAssisted/add`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(body)
-        });
-        
-        console.log(response.status)
+        RegisterAssistido(body)
     }
 
     return (

@@ -4,16 +4,14 @@ import Image from "next/image";
 import Logo from "@/assets/logo.svg"
 import User from "@/assets/person.svg"
 import Lock from "@/assets/lock.svg"
-import { redirect } from 'next/navigation'
+import { LoginHandler } from '@/api/login'
+import { IsLoggedRedirect } from '@/api/redirect'
+import { useState } from "react";
 
 export default function Login() {
+    const [loginError, setLoginError] = useState('');
 
-    (function () {
-        if (localStorage.getItem('token') != null) {
-            redirect('/')
-        }
-    })();
-
+    IsLoggedRedirect()
     async function onSubmit(event) {
         event.preventDefault()
         localStorage.clear()
@@ -24,18 +22,13 @@ export default function Login() {
             password: formData.elements[1].value
         };
 
-        const response = await fetch(`http://localhost:5149/api/user/login?email=${userData.email}&password=${userData.password}`, {
-            method: 'POST'
-        });
-        
-        const data = await response.json()
-        localStorage.setItem('token', data.token)
+        const loginCheck = await LoginHandler(userData)
 
-        window.location.reload()
-    }
-
-    function route() {
-        router.push('assistido')
+        if (loginCheck == true) {
+            window.location.reload()
+        } else {
+            setLoginError('Erro ao Realizar Login! Verifique sua senha e tente novamente.')
+        }
     }
 
     return (
@@ -60,8 +53,8 @@ export default function Login() {
                     />
                     <input type="password" name="pwd" id="pwd" placeholder="Senha" className=" ml-1 pl-1 w-full h-full outline-none" />
                 </div>
-                <button type="submit" className=" mt-2 bg-[#01499C] p-2 text-white font-semibold w-40 rounded-lg shadow-md hover:bg-white hover:text-[#01499C] transition duration-300">ACESSAR</button>
-                <button type="button" onClick={route} className=" mt-2 bg-[#01499C] p-2 text-white font-semibold w-40 rounded-lg shadow-md hover:bg-white hover:text-[#01499C] transition duration-300">CADASTRO</button>
+                <button type="submit" className=" mt-2 mb-2 bg-[#01499C] p-2 text-white font-semibold w-40 rounded-lg shadow-md hover:bg-white hover:text-[#01499C] transition duration-300">ACESSAR</button>
+                <span className=" text-red-600 font-bold p-1 rounded-md text-center">{(loginError)}</span>
             </form>
         </main>
     );
