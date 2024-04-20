@@ -45,3 +45,11 @@ body {
 li .sidemenu {
   margin-bottom: 14px;
 }
+
+li .list {
+  width: 25%;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  justify-content: center;
+  align-items: center;
+}

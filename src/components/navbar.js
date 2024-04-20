@@ -63,7 +63,7 @@ export function Navbar() {
                     </li>
                 </ul>
             </header>
-            <aside className=" fixed h-screen w-12 top-0 z-0 bg-[#3182B0] flex justify-center items-start max-md:-translate-x-full transition duration-300" id="sidebar">
+            <aside className=" fixed h-screen w-12 top-5 z-0 bg-[#3182B0] flex justify-center items-start max-md:-translate-x-full transition duration-300" id="sidebar">
                 <ul className=" mt-16 flex flex-col justify-between items-center w-full h-[88%]">
                     <li className=" mt-5">
                         <ul className=" flex flex-col justify-evenly items-center w-full">
@@ -117,7 +117,7 @@ export function Navbar() {
                             </li>
                         </ul>
                     </li>
-                    <li>
+                    <li className=" mb-5">
                         <button type="button">
                             <Image className=" w-6"
                                 src={Config}
