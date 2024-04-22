@@ -15,12 +15,16 @@ import Profile from "@/assets/profile.svg"
 import Notification from '@/assets/notifications.svg'
 import { useState } from 'react';
 import Link from "next/link";
-import { redirect } from 'next/navigation'
+import Profile2 from "@/assets/profilenav.svg"
+import Preanalise from "@/assets/preanalise.svg"
+import Avaliar from "@/assets/avaliar.svg"
+import Programa from "@/assets/programa.svg"
+import { usePathname } from 'next/navigation'
 
 export function Navbar() {
 
     const [colapse, setColapse] = useState(true);
-    
+
     const toggleSidebar = () => {
         if (colapse == true) {
             document.getElementById("sidebar").style.transform = "translateX(0%)"
@@ -63,7 +67,7 @@ export function Navbar() {
                     </li>
                 </ul>
             </header>
-            <aside className=" fixed h-screen w-12 top-5 z-0 bg-[#3182B0] flex justify-center items-start max-md:-translate-x-full transition duration-300" id="sidebar">
+            <aside className=" fixed h-screen w-12 top-0 z-0 bg-[#3182B0] flex justify-center items-start max-md:-translate-x-full transition duration-300" id="sidebar">
                 <ul className=" mt-16 flex flex-col justify-between items-center w-full h-[88%]">
                     <li className=" mt-5">
                         <ul className=" flex flex-col justify-evenly items-center w-full">
@@ -76,7 +80,7 @@ export function Navbar() {
                                 </Link>
                             </li>
                             <li className="sidemenu">
-                                <Link href="/lista">
+                                <Link href="/listagem/1">
                                     <Image className=" w-6"
                                         src={Summary}
                                         alt="Summary"
@@ -127,6 +131,63 @@ export function Navbar() {
                     </li>
                 </ul>
             </aside>
+        </main>
+    )
+}
+
+export function ProfileNav() {
+
+    const pathname = usePathname().split("/")
+    const childId = pathname[2]
+
+    return (
+        <main>
+            <nav className=" flex flex-col justify-start items-center w-48 h-screen bg-[#0000000e] max-md:hidden">
+                <div className=" bg-[#3182B0] flex justify-center items-center w-32 h-32 rounded-full mb-9 mt-8">
+                    <Image className=" w-1/2"
+                        src={Profile2}
+                        alt="profile"
+                    />
+                </div>
+                <ul className=" flex flex-col justify-evenly items-start w-full h-80 p-3">
+                    <li>
+                        <Link href={`/perfil/${childId}/principal`} className="profilenav">
+                            <Image className=" w-4 mr-6 ml-3"
+                                src={Profile2}
+                                alt="profile"
+                            />
+                            <span>PRINCIPAL</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link href={`/perfil/${childId}/analise`} className="profilenav">
+                            <Image className=" w-4 mr-6 ml-3"
+                                src={Preanalise}
+                                alt="Pré-Analise"
+                            />
+                            <span>PRÉ-ANALISE</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <button className="profilenav">
+                            <Image className=" w-4 mr-6 ml-3"
+                                src={Avaliar}
+                                alt="Avaliar"
+                            />
+                            <span>AVALIAÇÃO</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button className="profilenav">
+                            <Image className=" w-5 mr-6 ml-3"
+                                src={Programa}
+                                alt="Programa"
+                            />
+                            <span>PROGRAMAS</span>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
         </main>
     )
 }
