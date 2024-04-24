@@ -53,3 +53,10 @@ li .list {
   justify-content: center;
   align-items: center;
 }
+
+.profilenav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
