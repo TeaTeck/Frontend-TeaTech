@@ -38,7 +38,7 @@ export default function Funcionario() {
                             </div>
                         </section>
                     </div>
-                    <div className="flex justify-center fixed bottom-2 left-0 w-full">
+                    <div className="flex justify-center fixed bottom-20 left-0 w-full mb-20 gap-20">
                         <button className="bg-[#3082B0] p-5 rounded-lg text-white font-semibold text-xl shadow-md hover:bg-white hover:text-[#01499C] transition duration-300 mr-5">
                             Voltar
                         </button>
