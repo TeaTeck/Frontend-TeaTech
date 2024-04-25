@@ -15,11 +15,6 @@ import Profile from "@/assets/profile.svg"
 import Notification from '@/assets/notifications.svg'
 import { useState } from 'react';
 import Link from "next/link";
-import Profile2 from "@/assets/profilenav.svg"
-import Preanalise from "@/assets/preanalise.svg"
-import Avaliar from "@/assets/avaliar.svg"
-import Programa from "@/assets/programa.svg"
-import { usePathname } from 'next/navigation'
 
 export function Navbar() {
 
@@ -131,63 +126,6 @@ export function Navbar() {
                     </li>
                 </ul>
             </aside>
-        </main>
-    )
-}
-
-export function ProfileNav() {
-
-    const pathname = usePathname().split("/")
-    const childId = pathname[2]
-
-    return (
-        <main>
-            <nav className=" flex flex-col justify-start items-center w-48 h-screen bg-[#0000000e] max-md:hidden">
-                <div className=" bg-[#3182B0] flex justify-center items-center w-32 h-32 rounded-full mb-9 mt-8">
-                    <Image className=" w-1/2"
-                        src={Profile2}
-                        alt="profile"
-                    />
-                </div>
-                <ul className=" flex flex-col justify-evenly items-start w-full h-80 p-3">
-                    <li>
-                        <Link href={`/perfil/${childId}/principal`} className="profilenav">
-                            <Image className=" w-4 mr-6 ml-3"
-                                src={Profile2}
-                                alt="profile"
-                            />
-                            <span>PRINCIPAL</span>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link href={`/perfil/${childId}/analise`} className="profilenav">
-                            <Image className=" w-4 mr-6 ml-3"
-                                src={Preanalise}
-                                alt="Pré-Analise"
-                            />
-                            <span>PRÉ-ANALISE</span>
-                        </Link>
-                    </li>
-                    <li>
-                        <button className="profilenav">
-                            <Image className=" w-4 mr-6 ml-3"
-                                src={Avaliar}
-                                alt="Avaliar"
-                            />
-                            <span>AVALIAÇÃO</span>
-                        </button>
-                    </li>
-                    <li>
-                        <button className="profilenav">
-                            <Image className=" w-5 mr-6 ml-3"
-                                src={Programa}
-                                alt="Programa"
-                            />
-                            <span>PROGRAMAS</span>
-                        </button>
-                    </li>
-                </ul>
-            </nav>
         </main>
     )
 }

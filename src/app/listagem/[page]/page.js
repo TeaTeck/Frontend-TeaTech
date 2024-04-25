@@ -1,7 +1,7 @@
 'use client'
 
 import { Navbar } from "@/components/navbar"
-import { listAssisted } from "@/api/list"
+import { listAssisted } from "@/api/gets"
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Search from "@/assets/search.svg"
@@ -15,18 +15,6 @@ export default function Lista() {
 
     const pathname = usePathname().split("/")
     const pageNumber = parseInt(pathname[2])
-
-    async function selectPage() {
-        let pages = []
-        const lista = await listAssisted(pageNumber)
-
-        for (let index = 0; index < lista.totalPages; index++) {
-            pages.push(
-                <option value={index + 1}>0{index + 1}</option>
-            )
-        }
-        return pages
-    }
 
     async function listarAssistidos() {
         let assistidos = [];
@@ -88,12 +76,7 @@ export default function Lista() {
                     />
                     <input type="text" id="search" placeholder="Buscar Assistido" className=" outline-none bg-transparent w-full p-2 ml-2" />
                 </div>
-                <div className=" flex justify-end items-center w-full mt-6 p-2">
-                    <select name="pages" id="page-select" className=" mr-14 py-2 px-4 bg-[#0000000e] text-center">
-                        {selectPage()}
-                    </select>
-                </div>
-                <section className=" w-[90%] mt-2">
+                <section className=" w-[90%] mt-8">
                     <div className=" w-full py-3 pl-8 flex justify-start items-center bg-[#0003] shadow-lg">
                         <h2 className=" font-semibold">LISTA DE ASSISTIDOS</h2>
                     </div>
