@@ -75,7 +75,7 @@ export function Navbar() {
                                 </Link>
                             </li>
                             <li className="sidemenu">
-                                <Link href="/listagem/1">
+                                <Link href="/cadastro/assistido">
                                     <Image className=" w-6"
                                         src={Summary}
                                         alt="Summary"
@@ -83,12 +83,12 @@ export function Navbar() {
                                 </Link>
                             </li>
                             <li className="sidemenu">
-                                <button type="button">
+                                <Link href="/listagem/1">
                                     <Image className=" w-6"
                                         src={Sheet}
                                         alt="Sheet"
                                     />
-                                </button>
+                                </Link>
                             </li>
                             <li className="sidemenu">
                                 <button type="button">
