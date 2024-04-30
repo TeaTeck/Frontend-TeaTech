@@ -1,6 +1,6 @@
 'use client'
 
-import { LoginHandler, IsLoggedRedirect } from '@/api/login';
+import { LoginHandler, IsLoggedRedirect, emailValidation } from '@/api/login';
 import { useState } from "react";
 import Image from "next/image";
 import Lock from "@/assets/lock.svg";
@@ -21,6 +21,11 @@ export default function Login() {
             email: formData.elements[0].value,
             password: formData.elements[1].value
         };
+
+        if (!emailValidation(userData.email)) {
+            setLoginError('Email esta em formato incorreto, corrija-o e tente novamente.')
+            return
+        }
     
         const loginCheck = await LoginHandler(userData)
     
@@ -53,9 +58,9 @@ export default function Login() {
                     />
                     <input required type="password" name="pwd" id="pwd" placeholder="Senha" className=" ml-1 pl-1 w-full h-full outline-none" />
                 </div>
-                <Link href="/login" className=" mb-[2.5rem] mt-2 text-white font-medium">Esqueceu a Senha?</Link>
+                <Link href="/login" className=" mb-[1.5rem] mt-2 text-white font-medium">Esqueceu a Senha?</Link>
+                <span className=" text-red-600 text-sm font-bold rounded-md text-center">{(loginError)}</span>
                 <button type="submit" className=" mt-2 mb-2 bg-[#01499C] p-2 text-white font-semibold w-40 rounded-lg shadow-md hover:bg-white hover:text-[#01499C] transition duration-300">ACESSAR</button>
-                <span className=" text-red-600 font-bold p-1 rounded-md text-center">{(loginError)}</span>
             </form>
         </main>
     );
