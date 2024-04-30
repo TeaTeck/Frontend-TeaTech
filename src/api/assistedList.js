@@ -52,10 +52,12 @@ export async function listAssisted(pageNumber) {
                     </li>
                 );
             });
-        } 
+        }
 
         return assisteds
     } catch (error) {
-        console.log(error)
+        if (error.code === 'ECONNREFUSED') {
+            console.error('Não foi possível estabelecer uma conexão com o servidor.');
+        }
     }
 }

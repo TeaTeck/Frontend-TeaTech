@@ -1,7 +1,7 @@
 'use client'
 
-import { Navbar } from "@/components/navbar"
 import { NotLoggedRedirect } from '@/api/login'
+import { Navbar } from "@/components/navbar"
 
 export default function Home() {
 

@@ -4,7 +4,7 @@ import { LoginHandler, IsLoggedRedirect } from '@/api/login';
 import { useState } from "react";
 import Image from "next/image";
 import Lock from "@/assets/lock.svg";
-import Logo from "@/assets/logo.svg";
+import Logo from "@/assets/logo.png"
 import User from "@/assets/person.svg";
 import Link from 'next/link';
 
@@ -35,7 +35,7 @@ export default function Login() {
         <main className=" w-screen h-screen bg-[#3182B0] flex">
             <div className="img-login w-screen h-screen sm:absolute left-[40%] max-sm:blur-sm shadow-lg sm:rounded-3xl"></div>
             <form onSubmit={loginEvent} className="sm:bg-[#f0f0f04a] bg-[#cce2fe4a] rounded-2xl shadow-md w-80 h-[29rem] absolute flex flex-col justify-start items-center top-2/4 right-[68%] max-sm:left-2/4 max-sm:-translate-x-2/4 -translate-y-2/4">
-                <Image priority className=" w-80 h-20 mt-8"
+                <Image priority className=" w-25 h-25 mt-8"
                     src={Logo}
                     alt="Logo"
                 />

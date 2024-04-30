@@ -75,7 +75,7 @@ export function Navbar() {
                                 </Link>
                             </li>
                             <li className="sidemenu">
-                                <Link href="/cadastro/assistido">
+                                <Link href="/assistido">
                                     <Image className=" w-6"
                                         src={Summary}
                                         alt="Summary"
