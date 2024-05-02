@@ -15,7 +15,7 @@ export default function Login() {
     async function loginEvent(event) {
         event.preventDefault()
         localStorage.clear()
-    
+
         const formData = event.target;
         const userData = {
             email: formData.elements[0].value,
@@ -26,9 +26,8 @@ export default function Login() {
             setLoginError('Email esta em formato incorreto, corrija-o e tente novamente.')
             return
         }
-    
+
         const loginCheck = await LoginHandler(userData)
-    
         if (loginCheck) {
             window.location.reload()
         } else {
