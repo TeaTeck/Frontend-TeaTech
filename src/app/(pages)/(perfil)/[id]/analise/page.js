@@ -1,21 +1,16 @@
 'use client'
 
-import { Navbar } from "@/components/navbar"
 import { ProfileNav } from "@/components/profilenav"
-import { usePathname } from 'next/navigation'
-import { GetAssistedData } from "@/api/assistedData"
+import Assisted from "@/components/assisted"
 
 export default function Analise() {
-    const pathname = usePathname().split("/")
-    const id = pathname[2]
 
     return (
         <>
-            <Navbar />
             <main className=" flex md:ml-12">
                 <ProfileNav />
                 <div className=" w-screen">
-                    {assistedContent(id)}
+                    <Assisted/>
                     <form className=" p-2 mt-2 flex flex-col justify-center items-center">
                         <div className=" w-[90%] mb-4">
                             <label className=" font-bold ml-2">Informe a atividade proposta do assistido</label>
@@ -46,9 +41,4 @@ export default function Analise() {
             </main>
         </>
     )
-}
-
-async function assistedContent(id) {
-    const assistedContent = await GetAssistedData(id)
-    return assistedContent
 }

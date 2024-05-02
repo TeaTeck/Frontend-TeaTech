@@ -31,7 +31,7 @@ export function Navbar() {
     }
 
     return (
-        <main>
+        <>
             <header className=" max-md:fixed sticky max-md:top-0 z-10 shadow-lg w-screen h-16 bg-white">
                 <ul className=" flex justify-between items-center w-full h-full ">
                     <li className=" flex justify-center items-center w-14 h-14 md:ml-9 ml-2 mr-3">
@@ -126,6 +126,6 @@ export function Navbar() {
                     </li>
                 </ul>
             </aside>
-        </main>
+        </>
     )
 }
