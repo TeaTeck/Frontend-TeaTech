@@ -4,13 +4,15 @@ import { useState } from "react";
 // import { GetAssistedData } from "@/api/assistedData"
 import { usePathname } from 'next/navigation'
 
+import * as LR from '@uploadcare/blocks';
 import Image from "next/image";
-import Profile2 from "@/assets/profilenav.svg"
 import Preanalise from "@/assets/preanalise.svg"
 import Avaliar from "@/assets/avaliar.svg"
 import Programa from "@/assets/programa.svg"
 import Profile3 from "@/assets/profile3.svg"
 import Pei from "@/assets/pei.svg"
+
+LR.registerBlocks(LR);
 
 export default function Profile() {
     const pathname = usePathname().split("/")
@@ -40,15 +42,16 @@ export default function Profile() {
         setPageContent(Peipdi())
         setColorDefine("pei")
     }
-    
 
     return (
         <>
             <main className=" flex md:ml-12 h-screen">
                 <nav className=" flex flex-col justify-start items-center w-64 h-full bg-[#0000000e] max-md:hidden">
-                    <div className=" bg-[#3182B0] flex justify-center items-center w-32 h-32 rounded-full mb-9 mt-8">
-                        <Image className=" w-1/2"
-                            src={Profile2}
+                    <div className=" bg-[#3182B0] flex justify-center items-center w-32 h-32 rounded-full mb-9 mt-8 overflow-hidden">
+                        <Image className=" w-full"
+                            src='https://ucarecdn.com/5930a796-7602-4397-a65b-e098d8c499f0/teste.jpg'
+                            width={1000}
+                            height={1000}
                             alt="profile"
                         />
                     </div>
@@ -142,7 +145,7 @@ export default function Profile() {
 function Principal() {
     return (
         <>
-            <h1>Principal</h1>
+            section
         </>
     )
 }
@@ -168,10 +171,7 @@ function Analise() {
                     <input className=" w-full p-[10px] border border-gray-700 rounded-lg bg-whit shadow-md" type="text" name="name" id="name" placeholder="Digite Aqui" />
                 </div>
                 <div className=" p-2 mt-4 flex justify-center items-center">
-                    <button className=" mb-2 mr-20 py-2 px-12 bg-[#3081b011] rounded-md text-[#3082B0] border-2 border-[#3082B0]">
-                        Voltar
-                    </button>
-                    <button className=" mb-2 py-2 px-12 bg-[#3082B0] rounded-md text-white border-2 border-[#3082B0]">
+                    <button className=" mb-2 py-2 px-20 bg-[#3082B0] rounded-md text-white border-2 border-[#3082B0]">
                         Salvar
                     </button>
                 </div>
@@ -183,7 +183,33 @@ function Analise() {
 function Avaliacao() {
     return (
         <>
-            <h1>Avaliacao</h1>
+            <section className=" flex flex-col justify-center items-center w-full">
+                <div className=" p-3 flex flex-col w-[90%] rounded-md bg-[#00000009] mt-20">
+                    <label className=" font-semibold mb-1">Avaliação</label>
+                    <div className=" w-full bg-white p-3 rounded-md flex justify-between items-center">
+                        <span className=" font-semibold text-[#00000042]">Anexar Arquivo</span>
+                        <lr-config
+                            ctx-name="my-uploader"
+                            pubkey="a2166f02a764165d9357"
+                            maxLocalFileSizeBytes={10000000}
+                            multiple={false}
+                            imgOnly={true}
+                            sourceList="local, camera"
+                            useCloudImageEditor={false}
+                        ></lr-config>
+                        <lr-file-uploader-regular
+                            css-src="https://cdn.jsdelivr.net/npm/@uploadcare/blocks@0.35.2/web/lr-file-uploader-regular.min.css"
+                            ctx-name="my-uploader"
+                            class="my-config"
+                        ></lr-file-uploader-regular>
+                    </div>
+                </div>
+                <div className=" p-2 mt-14 flex justify-center items-center">
+                    <button className=" mt-10 py-2 px-20 bg-[#3082B0] rounded-md text-white border-2 border-[#3082B0]">
+                        Salvar
+                    </button>
+                </div>
+            </section>
         </>
     )
 }
