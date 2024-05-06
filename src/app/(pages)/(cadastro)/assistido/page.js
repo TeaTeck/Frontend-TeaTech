@@ -67,30 +67,30 @@ export default function Assistido() {
               />
             </div>
             <div className=' flex flex-col w-full mr-5'>
-              <label for="nameAssisted" className=' text-sm font-semibold ml-1'>Nome do Assistido <span className=' text-red-600'>*</span></label>
+              <label htmlFor="nameAssisted" className=' text-sm font-semibold ml-1'>Nome do Assistido <span className=' text-red-600'>*</span></label>
               <input required placeholder='Digite Aqui' type="text" name="nameAssisted" id="nameAssisted" className="registerInput" />
             </div>
             <div className=' flex flex-col w-full'>
-              <label for="dateAssisted" className=' text-sm font-semibold ml-1'>Data de Nascimento <span className=' text-red-600'>*</span></label>
+              <label htmlFor="dateAssisted" className=' text-sm font-semibold ml-1'>Data de Nascimento <span className=' text-red-600'>*</span></label>
               <input required type='date' name="dateAssisted" id="dateAssisted" className="registerInput" />
             </div>
           </div>
           <div className=' flex items-center justify-between mt-5'>
             <div className=' flex flex-col w-full mr-5'>
-              <label for="seletividade" className=' text-sm font-semibold ml-1'>Seletividade Alimentar <span className=' text-red-600'>*</span></label>
+              <label htmlFor="seletividade" className=' text-sm font-semibold ml-1'>Seletividade Alimentar <span className=' text-red-600'>*</span></label>
               <textarea required placeholder='Digite Aqui' rows="4" type="text" name="seletividade" id="seletividade" className="registerTextArea" />
             </div>
             <div className=' flex flex-col w-full mr-5'>
-              <label for="aversoes" className=' text-sm font-semibold ml-1'>Aversões <span className=' text-red-600'>*</span></label>
+              <label htmlFor="aversoes" className=' text-sm font-semibold ml-1'>Aversões <span className=' text-red-600'>*</span></label>
               <textarea required placeholder='Digite Aqui' rows="4" type="text" name="aversoes" id="aversoes" className="registerTextArea" />
             </div>
             <div className=' flex flex-col w-full'>
-              <label for="preferencias" className=' text-sm font-semibold ml-1'>Preferências <span className=' text-red-600'>*</span></label>
+              <label htmlFor="preferencias" className=' text-sm font-semibold ml-1'>Preferências <span className=' text-red-600'>*</span></label>
               <textarea required placeholder='Digite Aqui' rows="4" type='date' name="preferencias" id="preferencias" className="registerTextArea" />
             </div>
           </div>
           <div className=' flex flex-col w-full mt-5'>
-            <label for="nameAssisted" className=' text-sm font-semibold ml-1'>Laudo Medico</label>
+            <label htmlFor="nameAssisted" className=' text-sm font-semibold ml-1'>Laudo Medico</label>
             <lr-file-uploader-minimal
               css-src="https://cdn.jsdelivr.net/npm/@uploadcare/blocks@0.38.1/web/lr-file-uploader-minimal.min.css"
               ctx-name="my-uploader"
@@ -106,29 +106,29 @@ export default function Assistido() {
           <h2 className=' text-base font-bold ml-6 mb-4'>Informações do Responsável <span className=' text-red-600'>*</span></h2>
           <div className=' flex items-center justify-between'>
             <div className=' flex flex-col w-full mr-5'>
-              <label for="nameResponsavel" className=' text-sm font-semibold ml-1'>Nome do Responsável <span className=' text-red-600'>*</span></label>
+              <label htmlFor="nameResponsavel" className=' text-sm font-semibold ml-1'>Nome do Responsável <span className=' text-red-600'>*</span></label>
               <input required placeholder='Digite Aqui' type="text" name="nameResponsavel" id="nameResponsavel" className="registerInput" />
             </div>
             <div className=' flex flex-col w-full mr-5'>
-              <label for="responsavelParentesco" className=' text-sm font-semibold ml-1'>Parentesco <span className=' text-red-600'>*</span></label>
+              <label htmlFor="responsavelParentesco" className=' text-sm font-semibold ml-1'>Parentesco <span className=' text-red-600'>*</span></label>
               <input required placeholder='Exemplo: Pai, Mãe, Tia etc...' type="text" name="responsavelParentesco" id="responsavelParentesco" className="registerInput" />
             </div>
             <div className=' flex flex-col w-full mr-5'>
-              <label for="responsavelCpf" className=' text-sm font-semibold ml-1'>Cpf <span className=' text-red-600'>*</span></label>
+              <label htmlFor="responsavelCpf" className=' text-sm font-semibold ml-1'>Cpf <span className=' text-red-600'>*</span></label>
               <input required placeholder='000.000.000-00' type="text" name="responsavelCpf" id="responsavelCpf" className="registerInput" />
             </div>
           </div>
           <div className=' flex items-center justify-between mt-5'>
             <div className=' flex flex-col w-full mr-5'>
-              <label for="responsavelEmail" className=' text-sm font-semibold ml-1'>Email <span className=' text-red-600'>*</span></label>
+              <label htmlFor="responsavelEmail" className=' text-sm font-semibold ml-1'>Email <span className=' text-red-600'>*</span></label>
               <input required placeholder='Exemplo@gmail.com' type="text" name="responsavelEmail" id="responsavelEmail" className="registerInput" />
             </div>
             <div className=' flex flex-col w-full mr-5'>
-              <label for="responsavelContato" className=' text-sm font-semibold ml-1'>Contato <span className=' text-red-600'>*</span></label>
+              <label htmlFor="responsavelContato" className=' text-sm font-semibold ml-1'>Contato <span className=' text-red-600'>*</span></label>
               <input required placeholder='(81) 98888-8888' type="text" name="responsavelContato" id="responsavelContato" className="registerInput" />
             </div>
             <div className=' flex flex-col w-full mr-5'>
-              <label for="segundoContato" className=' text-sm font-semibold ml-1'>Segundo Contato</label>
+              <label htmlFor="segundoContato" className=' text-sm font-semibold ml-1'>Segundo Contato</label>
               <input required placeholder='(81) 98888-8888' type="text" name="segundoContato" id="segundoContato" className="registerInput" />
             </div>
           </div>
@@ -140,15 +140,15 @@ export default function Assistido() {
           <h2 className=' text-base font-bold ml-6 mb-4'>Informações do Segundo Responsável</h2>
           <div className=' flex items-center justify-between'>
             <div className=' flex flex-col w-full mr-5'>
-              <label for="nameSResponsavel" className=' text-sm font-semibold ml-1'>Nome do Segundo Responsável</label>
+              <label htmlFor="nameSResponsavel" className=' text-sm font-semibold ml-1'>Nome do Segundo Responsável</label>
               <input required placeholder='Digite Aqui' type="text" name="nameSResponsavel" id="nameSResponsavel" className="registerInput" />
             </div>
             <div className=' flex flex-col w-full mr-5'>
-              <label for="sResponsavelParentesco" className=' text-sm font-semibold ml-1'>Parentesco</label>
+              <label htmlFor="sResponsavelParentesco" className=' text-sm font-semibold ml-1'>Parentesco</label>
               <input required placeholder='Exemplo: Pai, Mãe, Tia etc...' type="text" name="sResponsavelParentesco" id="sResponsavelParentesco" className="registerInput" />
             </div>
             <div className=' flex flex-col w-full mr-5'>
-              <label for="sResponsavelCpf" className=' text-sm font-semibold ml-1'>Cpf</label>
+              <label htmlFor="sResponsavelCpf" className=' text-sm font-semibold ml-1'>Cpf</label>
               <input required placeholder='000.000.000-00' type="text" name="sResponsavelCpf" id="sResponsavelCpf" className="registerInput" />
             </div>
           </div>

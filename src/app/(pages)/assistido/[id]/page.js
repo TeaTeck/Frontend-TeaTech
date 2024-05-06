@@ -45,7 +45,7 @@ export default function Profile() {
 
     return (
         <>
-            <main className=" flex md:ml-12 h-screen">
+            <main className=" flex md:ml-12 h-[58rem]">
                 <nav className=" flex flex-col justify-start items-center w-64 h-full bg-[#0000000e] max-md:hidden">
                     <div className=" bg-[#3182B0] flex justify-center items-center w-32 h-32 rounded-full mb-9 mt-8 overflow-hidden">
                         <Image className=" w-full"
@@ -145,7 +145,91 @@ export default function Profile() {
 function Principal() {
     return (
         <>
-            section
+            <section className=" flex flex-col justify-center items-center w-full mt-16">
+                <div className="collapse collapse-arrow bg-base-200 w-[90%] rounded-md bg-[#00000009] border mb-4">
+                    <input type="radio" name="my-accordion-2" defaultChecked />
+                    <div className="collapse-title text-xl font-medium">
+                        Seletividade, aversões e preferencias
+                    </div>
+                    <div className="collapse-content">
+                        <div className=" w-full bg-white p-3 rounded-md flex justify-start items-center mb-4">
+                            <span className=" font-semibold mr-4">Seletividades:</span>
+                            <p className=" text-[#0000005e]">Seletividade de Teste</p>
+                        </div>
+                        <div className=" w-full bg-white p-3 rounded-md flex justify-start items-center mb-4">
+                            <span className=" font-semibold mr-4">Aversões:</span>
+                            <p className="text-[#0000005e]">Aversões de Teste</p>
+                        </div>
+                        <div className=" w-full bg-white p-3 rounded-md flex justify-start items-center">
+                            <span className=" font-semibold mr-4">Preferencias:</span>
+                            <p className="text-[#0000005e]">Preferencias de Teste</p>
+                        </div>
+                    </div>
+                </div>
+                <div className="collapse collapse-arrow bg-base-200 w-[90%] rounded-md bg-[#00000009] border mb-4">
+                    <input type="radio" name="my-accordion-2"/>
+                    <div className="collapse-title text-xl font-medium">
+                        Pré-análise
+                    </div>
+                    <div className="collapse-content">
+                        <div className=" w-full bg-white p-3 rounded-md flex justify-start items-center mb-4">
+                            <span className=" font-semibold mr-4">Atividades:</span>
+                            <p className=" text-[#0000005e]">Atividades de Teste</p>
+                        </div>
+                        <div className=" w-full bg-white p-3 rounded-md flex justify-start items-center mb-4">
+                            <span className=" font-semibold mr-4">Habilidades:</span>
+                            <p className="text-[#0000005e]">Habilidades de Teste</p>
+                        </div>
+                        <div className=" w-full bg-white p-3 rounded-md flex justify-start items-center mb-4">
+                            <span className=" font-semibold mr-4">Duração:</span>
+                            <p className="text-[#0000005e]">Duração de Teste</p>
+                        </div>
+                        <div className=" w-full bg-white p-3 rounded-md flex justify-start items-center">
+                            <span className=" font-semibold mr-4">Protocolo:</span>
+                            <p className=" text-[#0000005e]">Protocolo de Teste</p>
+                        </div>
+                    </div>
+                </div>
+                <div className="collapse collapse-arrow bg-base-200 w-[90%] rounded-md bg-[#00000009] border mb-4">
+                    <input type="radio" name="my-accordion-2"/>
+                    <div className="collapse-title text-xl font-medium">
+                        Avaliação
+                    </div>
+                    <div className="collapse-content">
+                        <div className=" w-full bg-white p-3 rounded-md flex justify-between items-center mb-4">
+                            <span className=" font-semibold text-[#0000005e] mr-4">Abrir Arquivo</span>
+                        </div>
+                    </div>
+                </div>
+                <div className="collapse collapse-arrow bg-base-200 w-[90%] rounded-md bg-[#00000009] border">
+                    <input type="radio" name="my-accordion-2"/>
+                    <div className="collapse-title text-xl font-medium">
+                        Programas
+                    </div>
+                    <div className="collapse-content">
+                        <div className=" w-full bg-white p-3 rounded-md flex justify-start items-center mb-4">
+                            <span className=" font-semibold mr-4">Protocolo:</span>
+                            <p className=" text-[#0000005e]">Protocolo de Teste</p>
+                        </div>
+                        <div className=" w-full bg-white p-3 rounded-md flex justify-start items-center mb-4">
+                            <span className=" font-semibold mr-4">Aplicador:</span>
+                            <p className="text-[#0000005e]">Aplicador de Teste</p>
+                        </div>
+                        <div className=" w-full bg-white p-3 rounded-md flex justify-start items-center mb-4">
+                            <span className=" font-semibold mr-4">Programa:</span>
+                            <p className="text-[#0000005e]">Programa de Teste</p>
+                        </div>
+                        <div className=" w-full bg-white p-3 rounded-md flex justify-start items-center mb-4">
+                            <span className=" font-semibold mr-4">Atividade:</span>
+                            <p className=" text-[#0000005e]">Atividade de Teste</p>
+                        </div>
+                        <div className=" w-full bg-white p-3 rounded-md flex justify-start items-center">
+                            <span className=" font-semibold mr-4">Estímulos Utilizados:</span>
+                            <p className=" text-[#0000005e]">Estímulos de Teste</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </>
     )
 }
@@ -185,7 +269,7 @@ function Avaliacao() {
         <>
             <section className=" flex flex-col justify-center items-center w-full">
                 <div className=" p-3 flex flex-col w-[90%] rounded-md bg-[#00000009] mt-20">
-                    <label className=" font-semibold mb-1">Avaliação</label>
+                    <div className=" font-semibold mb-1">Avaliação</div>
                     <div className=" w-full bg-white p-3 rounded-md flex justify-between items-center">
                         <span className=" font-semibold text-[#00000042]">Anexar Arquivo</span>
                         <lr-config
