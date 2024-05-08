@@ -45,8 +45,8 @@ export default function Profile() {
 
     return (
         <>
-            <main className=" flex md:ml-12 h-[58rem]">
-                <nav className=" flex flex-col justify-start items-center w-64 h-full bg-[#0000000e] max-md:hidden">
+            <main className=" flex md:ml-12">
+                <nav className=" flex flex-col justify-start items-center w-64 bg-[#0000000e] max-md:hidden">
                     <div className=" bg-[#3182B0] flex justify-center items-center w-32 h-32 rounded-full mb-9 mt-8 overflow-hidden">
                         <Image className=" w-full"
                             src='https://ucarecdn.com/5930a796-7602-4397-a65b-e098d8c499f0/teste.jpg'
@@ -145,7 +145,7 @@ export default function Profile() {
 function Principal() {
     return (
         <>
-            <section className=" flex flex-col justify-center items-center w-full mt-16">
+            <section className=" flex flex-col justify-center items-center w-full mt-16 mb-6">
                 <div className="collapse collapse-arrow bg-base-200 w-[90%] rounded-md bg-[#00000009] border mb-4">
                     <input type="radio" name="my-accordion-2" defaultChecked />
                     <div className="collapse-title text-xl font-medium">
@@ -288,7 +288,7 @@ function Avaliacao() {
                         ></lr-file-uploader-regular>
                     </div>
                 </div>
-                <div className=" p-2 mt-14 flex justify-center items-center">
+                <div className=" p-2 mt-14 flex justify-center items-center mb-6">
                     <button className=" mt-10 py-2 px-20 bg-[#3082B0] rounded-md text-white border-2 border-[#3082B0]">
                         Salvar
                     </button>

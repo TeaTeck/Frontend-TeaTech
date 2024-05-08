@@ -72,6 +72,30 @@ export default function Lista() {
 
 async function listContent(pageNumber) {
     const listContent = await listAssisted(pageNumber)
+
+    if (!listContent) {
+        return (
+            <>
+                <li className=" w-full flex justify-evenly items-center border border-[#00000015] shadow-sm">
+                    <div className="skeleton h-4 w-11/12"></div>
+                </li>
+                <li className=" w-full flex justify-evenly items-center border border-[#00000015] shadow-sm">
+                    <div className="skeleton h-4 w-11/12"></div>
+                </li>
+                <li className=" w-full flex justify-evenly items-center border border-[#00000015] shadow-sm">
+                    <div className="skeleton h-4 w-11/12"></div>
+                </li>
+                <li className=" w-full flex justify-evenly items-center border border-[#00000015] shadow-sm">
+                    <div className="skeleton h-4 w-11/12"></div>
+                </li>
+                <li className=" w-full flex justify-evenly items-center border border-[#00000015] shadow-sm">
+                    <div className="skeleton h-4 w-11/12"></div>
+                </li>
+            </>
+        )
+    }
+
     return listContent
 }
+
 
