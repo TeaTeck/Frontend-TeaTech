@@ -4,8 +4,6 @@ import { listAssisted } from "@/api/assistedList"
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Search from "@/assets/search.svg"
-import Left from "@/assets/chevron-left.svg"
-import Right from "@/assets/chevron-right.svg"
 import Image from 'next/image'
 
 export default function Lista() {
@@ -47,23 +45,10 @@ export default function Lista() {
                         {listContent(pageNumber)}
                     </ul>
                 </div>
-                <div className=" flex justify-end items-center w-full mt-5 mb-5 p-2">
-                    <Link href={`/listagem/${pageNumber > 1 ? pageNumber - 1 : pageNumber}`} className="button-page mr-6 border-2 border-[#3082B0] w-[35px] py-1 rounded-sm items-center justify-center flex">
-                        <Image
-                            src={Left}
-                            width={20}
-                            height={20}
-                            alt="search"
-                        />
-                    </Link>
-                    <Link href={`/listagem/${pageNumber + 1}`} className="button-page mr-10 border-2 border-[#3082B0] w-[35px] py-1 rounded-sm items-center justify-center flex">
-                        <Image
-                            src={Right}
-                            width={20}
-                            height={20}
-                            alt="search"
-                        />
-                    </Link>
+                <div className="join flex justify-end mt-6 mb-6">
+                    <Link href={`/listagem/${pageNumber > 1 ? pageNumber - 1 : pageNumber}`} className="join-item btn">«</Link>
+                    <button className="join-item btn">Page {pageNumber}</button>
+                    <Link href={`/listagem/${pageNumber + 1}`} className="join-item btn">»</Link>
                 </div>
             </section>
         </main>
