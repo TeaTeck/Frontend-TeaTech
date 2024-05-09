@@ -141,15 +141,15 @@ export default function Assistido() {
           <div className=' flex items-center justify-between'>
             <div className=' flex flex-col w-full mr-5'>
               <label htmlFor="nameSResponsavel" className=' text-sm font-semibold ml-1'>Nome do Segundo Responsável</label>
-              <input required placeholder='Digite Aqui' type="text" name="nameSResponsavel" id="nameSResponsavel" className="registerInput" />
+              <input placeholder='Digite Aqui' type="text" name="nameSResponsavel" id="nameSResponsavel" className="registerInput" />
             </div>
             <div className=' flex flex-col w-full mr-5'>
               <label htmlFor="sResponsavelParentesco" className=' text-sm font-semibold ml-1'>Parentesco</label>
-              <input required placeholder='Exemplo: Pai, Mãe, Tia etc...' type="text" name="sResponsavelParentesco" id="sResponsavelParentesco" className="registerInput" />
+              <input placeholder='Exemplo: Pai, Mãe, Tia etc...' type="text" name="sResponsavelParentesco" id="sResponsavelParentesco" className="registerInput" />
             </div>
             <div className=' flex flex-col w-full mr-5'>
               <label htmlFor="sResponsavelCpf" className=' text-sm font-semibold ml-1'>Cpf</label>
-              <input required placeholder='000.000.000-00' type="text" name="sResponsavelCpf" id="sResponsavelCpf" className="registerInput" />
+              <input placeholder='000.000.000-00' type="text" name="sResponsavelCpf" id="sResponsavelCpf" className="registerInput" />
             </div>
           </div>
         </section>

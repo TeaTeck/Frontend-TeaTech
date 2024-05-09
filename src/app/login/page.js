@@ -1,16 +1,21 @@
 'use client'
 
-import { LoginHandler, IsLoggedRedirect, emailValidation } from '@/api/login';
+import { LoginHandler, emailValidation } from '@/api/login';
 import { useState } from "react";
 import Image from "next/image";
 import Lock from "@/assets/lock.svg";
 import Logo from "@/assets/logo.png"
 import User from "@/assets/person.svg";
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
-IsLoggedRedirect()
 export default function Login() {
     const [loginError, setLoginError] = useState('');
+    const router = useRouter()
+
+    if (localStorage.getItem('session')) {
+        router.push('/')
+    }
 
     async function loginEvent(event) {
         event.preventDefault()
@@ -29,7 +34,7 @@ export default function Login() {
 
         const loginCheck = await LoginHandler(userData)
         if (loginCheck) {
-            window.location.reload()
+            router.push('/')
         } else {
             setLoginError('Erro ao Realizar Login! Verifique sua senha e tente novamente.')
         }

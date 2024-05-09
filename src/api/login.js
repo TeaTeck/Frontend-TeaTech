@@ -1,14 +1,21 @@
 import { redirect } from 'next/navigation'
 
-export async function LoginHandler(userData) {
+const APIURL = process.env.NEXT_PUBLIC_API_URL
+
+export async function LoginHandler(body) {
     try {
-        const response = await fetch(`http://localhost:5149/api/user/login?email=${userData.email}&password=${userData.password}`, {
-            method: 'POST'
+        const response = await fetch(`${APIURL}/user/login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body)
         });
 
         const data = await response.json()
         if (response.status == 200) {
             localStorage.setItem('session', data.token)
+            console.log(localStorage.getItem('session'))
             return true
         } else {
             return false
@@ -21,7 +28,7 @@ export async function LoginHandler(userData) {
 export function emailValidation(email) {
     var check = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
 
-    if(email.match(check)) {
+    if (email.match(check)) {
         return true;
     } else {
         return false;
@@ -29,13 +36,11 @@ export function emailValidation(email) {
 }
 
 export function IsLogged() {
-    const Session = typeof window !== 'undefined' ? window.localStorage : null;
-
-    if (Session && Session.getItem('session') != null) {
+    if (localStorage.getItem('session')) {
         return true
-    } else {
-        return false
     }
+
+    return false
 }
 
 export function IsLoggedRedirect() {
