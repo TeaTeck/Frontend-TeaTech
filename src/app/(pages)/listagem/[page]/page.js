@@ -2,13 +2,86 @@
 
 import { listAssisted } from "@/api/assistedList"
 import { usePathname } from 'next/navigation'
+import { useState, useEffect } from 'react';
 import Link from 'next/link'
 import Search from "@/assets/search.svg"
 import Image from 'next/image'
+import Trash from "@/assets/trash.svg"
+import Edit from "@/assets/pencil-square.svg"
+
 
 export default function Lista() {
     const pathname = usePathname().split("/")
+    const token = localStorage.getItem('session')
     const pageNumber = parseInt(pathname[2])
+    const [assistedData, setAssistedData] = useState(
+        <>
+            <li className=" w-full flex justify-evenly items-center border border-[#00000015] shadow-sm">
+                <div className="skeleton h-4 w-11/12"></div>
+            </li>
+            <li className=" w-full flex justify-evenly items-center border border-[#00000015] shadow-sm">
+                <div className="skeleton h-4 w-11/12"></div>
+            </li>
+            <li className=" w-full flex justify-evenly items-center border border-[#00000015] shadow-sm">
+                <div className="skeleton h-4 w-11/12"></div>
+            </li>
+            <li className=" w-full flex justify-evenly items-center border border-[#00000015] shadow-sm">
+                <div className="skeleton h-4 w-11/12"></div>
+            </li>
+            <li className=" w-full flex justify-evenly items-center border border-[#00000015] shadow-sm">
+                <div className="skeleton h-4 w-11/12"></div>
+            </li>
+        </>
+    );
+
+    useEffect(() => {
+        const fetchAssistedData = async () => {
+            let assisteds = []
+            const listContent = await listAssisted(pageNumber, token);
+            listContent.childAssisteds.forEach(child => {
+                let hidden = child.preAnalysisStatusCode == 1 ? "flex" : "hidden";
+
+                assisteds.push(
+                    <li key={child.id} className=" w-full flex justify-evenly items-center border border-[#00000015] shadow-sm">
+                        <div className="list flex">
+                            <spam>{child.name}</spam>
+                        </div>
+                        <div className="list md:flex hidden">
+                            <spam>{child.email}</spam>
+                        </div>
+                        <div className="list md:flex hidden">
+                            <spam>{child.contact}</spam>
+                        </div>
+                        <div className="list flex justify-between">
+                            <Link href={`/assistido/${child.id}`} className={` mr-2 bg-[#c22121] rounded-lg p-2 text-white font-bold items-center justify-center ${hidden} text-[10px]`}>
+                                <label>PRÉ-ANALISE</label>
+                            </Link>
+                            <Link href={`/assistido/${child.id}`} className=" mr-2 p-1 max-md:p-2 bg-[#66B8E6] rounded-sm items-center justify-center flex">
+                                <Image
+                                    src={Edit}
+                                    width={20}
+                                    height={20}
+                                    alt="edit"
+                                />
+                            </Link>
+                            <button className=" p-1 max-md:p-2 bg-[#000000] rounded-sm items-center justify-center flex">
+                                <Image
+                                    src={Trash}
+                                    width={20}
+                                    height={20}
+                                    alt="trash"
+                                />
+                            </button>
+                        </div>
+                    </li>
+                );
+            });
+
+            setAssistedData(assisteds);
+        }
+
+        fetchAssistedData();
+    }, []);
 
     return (
         <main className=" mt-9 max-md:mt-28 ml-3 md:ml-14 w-[95%] flex flex-col justify-center items-center">
@@ -42,7 +115,7 @@ export default function Lista() {
                                 <spam>Ações</spam>
                             </div>
                         </li>
-                        {listContent(pageNumber)}
+                        {assistedData}
                     </ul>
                 </div>
                 <div className="join flex justify-end mt-6 mb-6">
@@ -54,33 +127,3 @@ export default function Lista() {
         </main>
     )
 }
-
-async function listContent(pageNumber) {
-    const listContent = await listAssisted(pageNumber)
-
-    if (!listContent) {
-        return (
-            <>
-                <li className=" w-full flex justify-evenly items-center border border-[#00000015] shadow-sm">
-                    <div className="skeleton h-4 w-11/12"></div>
-                </li>
-                <li className=" w-full flex justify-evenly items-center border border-[#00000015] shadow-sm">
-                    <div className="skeleton h-4 w-11/12"></div>
-                </li>
-                <li className=" w-full flex justify-evenly items-center border border-[#00000015] shadow-sm">
-                    <div className="skeleton h-4 w-11/12"></div>
-                </li>
-                <li className=" w-full flex justify-evenly items-center border border-[#00000015] shadow-sm">
-                    <div className="skeleton h-4 w-11/12"></div>
-                </li>
-                <li className=" w-full flex justify-evenly items-center border border-[#00000015] shadow-sm">
-                    <div className="skeleton h-4 w-11/12"></div>
-                </li>
-            </>
-        )
-    }
-
-    return listContent
-}
-
-

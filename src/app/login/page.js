@@ -1,6 +1,7 @@
 'use client'
 
-import { LoginHandler, emailValidation } from '@/api/login';
+import { LoginHandler } from '@/api/login';
+import { emailValidation } from '@/api/validation';
 import { useState } from "react";
 import Image from "next/image";
 import Lock from "@/assets/lock.svg";

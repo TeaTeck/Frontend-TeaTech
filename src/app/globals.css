@@ -85,3 +85,14 @@ li .list {
   border-width: 1px;
   outline-color: #3182B0;
 }
+
+lr-file-uploader-regular {
+  position: relative;
+  display: inline-block;
+}
+
+lr-form-input {
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+}

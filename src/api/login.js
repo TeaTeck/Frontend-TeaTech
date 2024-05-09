@@ -25,30 +25,12 @@ export async function LoginHandler(body) {
     }
 }
 
-export function emailValidation(email) {
-    var check = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
-
-    if (email.match(check)) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
 export function IsLogged() {
     if (localStorage.getItem('session')) {
         return true
     }
 
     return false
-}
-
-export function IsLoggedRedirect() {
-    const result = IsLogged();
-
-    if (result == true) {
-        redirect('/')
-    }
 }
 
 export function NotLoggedRedirect() {

@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from "react";
-// import { GetAssistedData } from "@/api/assistedData"
+import { useState, useEffect } from 'react';
+import { GetAssistedData } from "@/api/assistedData"
 import { usePathname } from 'next/navigation'
 
 import * as LR from '@uploadcare/blocks';
@@ -16,9 +16,20 @@ LR.registerBlocks(LR);
 
 export default function Profile() {
     const pathname = usePathname().split("/")
-    const id = pathname[1]
-    console.log(id)
-    const data = ''
+    const token = localStorage.getItem('session')
+    const id = pathname[2]
+    const [data, setData] = useState('')
+
+    useEffect(() => {
+        const fetchAssistedData = async () => {
+            const assistedData = await GetAssistedData(id, token)
+            setData(assistedData)
+
+            console.log(data)
+        }
+
+        fetchAssistedData();
+    }, []);
 
     const [colorDefine, setColorDefine] = useState("principal")
     const [pageContent, setPageContent] = useState(Principal())

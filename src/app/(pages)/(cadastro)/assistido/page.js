@@ -1,38 +1,38 @@
 'use client'
 
 import { RegisterAssistido } from '@/api/register'
+import { NotLoggedRedirect } from '@/api/login'
 import Image from 'next/image'
-import * as LR from '@uploadcare/blocks';
 import User from "@/assets/person.svg";
-import React, { useEffect, useRef, useState } from 'react';
-
-LR.registerBlocks(LR);
+import { uploadDirect } from '@uploadcare/upload-client'
 
 export default function Assistido() {
-  const [files, setFiles] = useState([]);
-  const ctxProviderRef = useRef(null);
 
-  useEffect(() => {
-    const ctxProvider = ctxProviderRef.current;
-    if (!ctxProvider) return;
-    const handleChangeEvent = (event) => {
-      setFiles([...event.detail.allEntries.filter((file) => file.status === 'success')]);
-    };
-    ctxProvider.addEventListener('change', handleChangeEvent);
-    return () => {
-      ctxProvider.removeEventListener('change', handleChangeEvent);
-    };
-  }, [setFiles]);
+  NotLoggedRedirect()
+  async function registerEvent(e) {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const token = localStorage.getItem('session')
 
-  function log() {
-    files.map((file) => (
-      console.log(file.cdnUrl)
-    ))
-  }
+    const fileData = [formData.get('photo'), formData.get('medicalRecord')];
+
+    const uploadPromises = fileData.map(file => uploadDirect(file, {
+        publicKey: 'a2166f02a764165d9357',
+        store: 'auto',
+    }));
+
+    const results = await Promise.all(uploadPromises);
+    formData.set('photo', results[0].cdnUrl)
+    formData.set('medicalRecord', results[1].cdnUrl)
+
+    const jsonObject = Object.fromEntries(formData);
+    RegisterAssistido(jsonObject, token)
+}
 
   return (
     <main className=" mt-5 md:ml-14 flex justify-center items-center w-[95%]">
-      <form className=' w-[90%]'>
+      <form onSubmit={registerEvent} enctype="multipart/form-data" className=' w-[90%]'>
         <h1 className=' text-xl font-bold ml-14 mb-6'>Cadastro do Assistido</h1>
         <div className=' w-full flex justify-center items-center mb-6'>
           <div className=' w-[98%] border'></div>
@@ -47,56 +47,34 @@ export default function Assistido() {
                 height={70}
                 className=' mt-6'
               />
-              <lr-config
-                ctx-name="my-uploader"
-                pubkey="a2166f02a764165d9357"
-                maxLocalFileSizeBytes={10000000}
-                multiple={false}
-                imgOnly={true}
-                sourceList="local, camera"
-                useCloudImageEditor={false}
-              ></lr-config>
-              <lr-file-uploader-regular
-                css-src="https://cdn.jsdelivr.net/npm/@uploadcare/blocks@0.35.2/web/lr-file-uploader-regular.min.css"
-                ctx-name="my-uploader"
-                class="my-config"
-              ></lr-file-uploader-regular>
-              <lr-upload-ctx-provider
-                ctx-name="my-uploader"
-                ref={ctxProviderRef}
-              />
+              <input required id='photo' name="photo" type="file" accept='.png,.jpg' className="file-input file-input-bordered file-input-xs" />
             </div>
             <div className=' flex flex-col w-full mr-5'>
-              <label htmlFor="nameAssisted" className=' text-sm font-semibold ml-1'>Nome do Assistido <span className=' text-red-600'>*</span></label>
-              <input required placeholder='Digite Aqui' type="text" name="nameAssisted" id="nameAssisted" className="registerInput" />
+              <label htmlFor="name" className=' text-sm font-semibold ml-1'>Nome do Assistido <span className=' text-red-600'>*</span></label>
+              <input required placeholder='Digite Aqui' type="text" name="name" id="name" className="registerInput" />
             </div>
             <div className=' flex flex-col w-full'>
-              <label htmlFor="dateAssisted" className=' text-sm font-semibold ml-1'>Data de Nascimento <span className=' text-red-600'>*</span></label>
-              <input required type='date' name="dateAssisted" id="dateAssisted" className="registerInput" />
+              <label htmlFor="birthDate" className=' text-sm font-semibold ml-1'>Data de Nascimento <span className=' text-red-600'>*</span></label>
+              <input required type='date' name="birthDate" id="birthDate" className="registerInput" />
             </div>
           </div>
           <div className=' flex items-center justify-between mt-5'>
             <div className=' flex flex-col w-full mr-5'>
-              <label htmlFor="seletividade" className=' text-sm font-semibold ml-1'>Seletividade Alimentar <span className=' text-red-600'>*</span></label>
-              <textarea required placeholder='Digite Aqui' rows="4" type="text" name="seletividade" id="seletividade" className="registerTextArea" />
+              <label htmlFor="foodSelectivity" className=' text-sm font-semibold ml-1'>Seletividade Alimentar <span className=' text-red-600'>*</span></label>
+              <textarea required placeholder='Digite Aqui' rows="4" type="text" name="foodSelectivity" id="foodSelectivity" className="registerTextArea" />
             </div>
             <div className=' flex flex-col w-full mr-5'>
-              <label htmlFor="aversoes" className=' text-sm font-semibold ml-1'>Aversões <span className=' text-red-600'>*</span></label>
-              <textarea required placeholder='Digite Aqui' rows="4" type="text" name="aversoes" id="aversoes" className="registerTextArea" />
+              <label htmlFor="aversions" className=' text-sm font-semibold ml-1'>Aversões <span className=' text-red-600'>*</span></label>
+              <textarea required placeholder='Digite Aqui' rows="4" type="text" name="aversions" id="aversions" className="registerTextArea" />
             </div>
             <div className=' flex flex-col w-full'>
-              <label htmlFor="preferencias" className=' text-sm font-semibold ml-1'>Preferências <span className=' text-red-600'>*</span></label>
-              <textarea required placeholder='Digite Aqui' rows="4" type='date' name="preferencias" id="preferencias" className="registerTextArea" />
+              <label htmlFor="preferences" className=' text-sm font-semibold ml-1'>Preferências <span className=' text-red-600'>*</span></label>
+              <textarea required placeholder='Digite Aqui' rows="4" type='date' name="preferences" id="preferences" className="registerTextArea" />
             </div>
           </div>
           <div className=' flex flex-col w-full mt-5'>
-            <label htmlFor="nameAssisted" className=' text-sm font-semibold ml-1'>Laudo Medico</label>
-            <lr-file-uploader-minimal
-              css-src="https://cdn.jsdelivr.net/npm/@uploadcare/blocks@0.38.1/web/lr-file-uploader-minimal.min.css"
-              ctx-name="my-uploader"
-              class="my-config"
-            >
-            </lr-file-uploader-minimal>
+            <label className=' text-sm font-semibold ml-1'>Imagem do Assistido e Laudo Medico</label>
+            <input required id='medicalRecord' name="medicalRecord" type="file" accept='.png,.jpg' className="file-input file-input-bordered w-full" />
           </div>
         </section>
         <div className=' w-full flex justify-center items-center mt-6 mb-6'>
@@ -106,30 +84,30 @@ export default function Assistido() {
           <h2 className=' text-base font-bold ml-6 mb-4'>Informações do Responsável <span className=' text-red-600'>*</span></h2>
           <div className=' flex items-center justify-between'>
             <div className=' flex flex-col w-full mr-5'>
-              <label htmlFor="nameResponsavel" className=' text-sm font-semibold ml-1'>Nome do Responsável <span className=' text-red-600'>*</span></label>
-              <input required placeholder='Digite Aqui' type="text" name="nameResponsavel" id="nameResponsavel" className="registerInput" />
+              <label htmlFor="nameResponsibleOne" className=' text-sm font-semibold ml-1'>Nome do Responsável <span className=' text-red-600'>*</span></label>
+              <input required placeholder='Digite Aqui' type="text" name="nameResponsibleOne" id="nameResponsibleOne" className="registerInput" />
             </div>
             <div className=' flex flex-col w-full mr-5'>
-              <label htmlFor="responsavelParentesco" className=' text-sm font-semibold ml-1'>Parentesco <span className=' text-red-600'>*</span></label>
-              <input required placeholder='Exemplo: Pai, Mãe, Tia etc...' type="text" name="responsavelParentesco" id="responsavelParentesco" className="registerInput" />
+              <label htmlFor="responsibleKinshipOne" className=' text-sm font-semibold ml-1'>Parentesco <span className=' text-red-600'>*</span></label>
+              <input required placeholder='Exemplo: Pai, Mãe, Tia etc...' type="text" name="responsibleKinshipOne" id="responsibleKinshipOne" className="registerInput" />
             </div>
             <div className=' flex flex-col w-full mr-5'>
-              <label htmlFor="responsavelCpf" className=' text-sm font-semibold ml-1'>Cpf <span className=' text-red-600'>*</span></label>
-              <input required placeholder='000.000.000-00' type="text" name="responsavelCpf" id="responsavelCpf" className="registerInput" />
+              <label htmlFor="responsibleCpfOne" className=' text-sm font-semibold ml-1'>Cpf <span className=' text-red-600'>*</span></label>
+              <input required placeholder='000.000.000-00' type="text" name="responsibleCpfOne" id="responsibleCpfOne" className="registerInput" />
             </div>
           </div>
           <div className=' flex items-center justify-between mt-5'>
             <div className=' flex flex-col w-full mr-5'>
-              <label htmlFor="responsavelEmail" className=' text-sm font-semibold ml-1'>Email <span className=' text-red-600'>*</span></label>
-              <input required placeholder='Exemplo@gmail.com' type="text" name="responsavelEmail" id="responsavelEmail" className="registerInput" />
+              <label htmlFor="email" className=' text-sm font-semibold ml-1'>Email <span className=' text-red-600'>*</span></label>
+              <input required placeholder='Exemplo@gmail.com' type="text" name="email" id="email" className="registerInput" />
             </div>
             <div className=' flex flex-col w-full mr-5'>
-              <label htmlFor="responsavelContato" className=' text-sm font-semibold ml-1'>Contato <span className=' text-red-600'>*</span></label>
-              <input required placeholder='(81) 98888-8888' type="text" name="responsavelContato" id="responsavelContato" className="registerInput" />
+              <label htmlFor="contactOne" className=' text-sm font-semibold ml-1'>Contato <span className=' text-red-600'>*</span></label>
+              <input required placeholder='(81) 98888-8888' type="text" name="contactOne" id="contactOne" className="registerInput" />
             </div>
             <div className=' flex flex-col w-full mr-5'>
-              <label htmlFor="segundoContato" className=' text-sm font-semibold ml-1'>Segundo Contato</label>
-              <input required placeholder='(81) 98888-8888' type="text" name="segundoContato" id="segundoContato" className="registerInput" />
+              <label htmlFor="contactTwo" className=' text-sm font-semibold ml-1'>Segundo Contato</label>
+              <input placeholder='(81) 98888-8888' type="text" name="contactTwo" id="contactTwo" className="registerInput" />
             </div>
           </div>
         </section>
@@ -140,16 +118,16 @@ export default function Assistido() {
           <h2 className=' text-base font-bold ml-6 mb-4'>Informações do Segundo Responsável</h2>
           <div className=' flex items-center justify-between'>
             <div className=' flex flex-col w-full mr-5'>
-              <label htmlFor="nameSResponsavel" className=' text-sm font-semibold ml-1'>Nome do Segundo Responsável</label>
-              <input placeholder='Digite Aqui' type="text" name="nameSResponsavel" id="nameSResponsavel" className="registerInput" />
+              <label htmlFor="nameResponsibleTwo" className=' text-sm font-semibold ml-1'>Nome do Segundo Responsável</label>
+              <input placeholder='Digite Aqui' type="text" name="nameResponsibleTwo" id="nameResponsibleTwo" className="registerInput" />
             </div>
             <div className=' flex flex-col w-full mr-5'>
-              <label htmlFor="sResponsavelParentesco" className=' text-sm font-semibold ml-1'>Parentesco</label>
-              <input placeholder='Exemplo: Pai, Mãe, Tia etc...' type="text" name="sResponsavelParentesco" id="sResponsavelParentesco" className="registerInput" />
+              <label htmlFor="responsibleKinshipTwo" className=' text-sm font-semibold ml-1'>Parentesco</label>
+              <input placeholder='Exemplo: Pai, Mãe, Tia etc...' type="text" name="responsibleKinshipTwo" id="responsibleKinshipTwo" className="registerInput" />
             </div>
             <div className=' flex flex-col w-full mr-5'>
-              <label htmlFor="sResponsavelCpf" className=' text-sm font-semibold ml-1'>Cpf</label>
-              <input placeholder='000.000.000-00' type="text" name="sResponsavelCpf" id="sResponsavelCpf" className="registerInput" />
+              <label htmlFor="responsibleCpfTwo" className=' text-sm font-semibold ml-1'>Cpf</label>
+              <input placeholder='000.000.000-00' type="text" name="responsibleCpfTwo" id="responsibleCpfTwo" className="registerInput" />
             </div>
           </div>
         </section>
