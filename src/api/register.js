@@ -10,5 +10,5 @@ export async function RegisterAssistido(body, token) {
         body: JSON.stringify(body)
     });
 
-    console.log(response.status)
+    return response.status
 }

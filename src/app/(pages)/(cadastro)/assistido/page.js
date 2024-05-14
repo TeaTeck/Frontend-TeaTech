@@ -2,11 +2,15 @@
 
 import { RegisterAssistido } from '@/api/register'
 import { NotLoggedRedirect } from '@/api/login'
+import { formatarCPF, formatarTelefone } from '@/api/validation'
 import Image from 'next/image'
 import User from "@/assets/person.svg";
 import { uploadDirect } from '@uploadcare/upload-client'
+import { useState } from 'react'
 
 export default function Assistido() {
+  const today = new Date().toISOString().split('T')[0];
+  const [registerInfo, setRegisterInfo] = useState('');
 
   NotLoggedRedirect()
   async function registerEvent(e) {
@@ -25,9 +29,18 @@ export default function Assistido() {
     const results = await Promise.all(uploadPromises);
     formData.set('photo', results[0].cdnUrl)
     formData.set('medicalRecord', results[1].cdnUrl)
+    formData.set('responsibleCpfOne', formatarCPF(formData.get('responsibleCpfOne')))
+    formData.set('responsibleCpfTwo', formatarCPF(formData.get('responsibleCpfTwo')))
+    formData.set('contactOne', formatarTelefone(formData.get('contactOne')))
+    formData.set('contactTwo', formatarTelefone(formData.get('contactTwo')))
 
     const jsonObject = Object.fromEntries(formData);
-    RegisterAssistido(jsonObject, token)
+    const response = RegisterAssistido(jsonObject, token)
+    if (response == '200') {
+      setRegisterInfo('Cadastro Realizado com Sucesso!')
+    } else {
+      setRegisterInfo('Falha ao Realizar Cadastro!')
+    }
 }
 
   return (
@@ -55,7 +68,7 @@ export default function Assistido() {
             </div>
             <div className=' flex flex-col w-full'>
               <label htmlFor="birthDate" className=' text-sm font-semibold ml-1'>Data de Nascimento <span className=' text-red-600'>*</span></label>
-              <input required type='date' name="birthDate" id="birthDate" className="registerInput" />
+              <input required type='date' name="birthDate" min="2000-01-01" max={today} id="birthDate" className="registerInput" />
             </div>
           </div>
           <div className=' flex items-center justify-between mt-5'>
@@ -93,7 +106,7 @@ export default function Assistido() {
             </div>
             <div className=' flex flex-col w-full mr-5'>
               <label htmlFor="responsibleCpfOne" className=' text-sm font-semibold ml-1'>Cpf <span className=' text-red-600'>*</span></label>
-              <input required placeholder='000.000.000-00' type="text" name="responsibleCpfOne" id="responsibleCpfOne" className="registerInput" />
+              <input required placeholder='Apenas números' maxlength="11" pattern="[0-9]*" type="text" name="responsibleCpfOne" id="responsibleCpfOne" className="registerInput" />
             </div>
           </div>
           <div className=' flex items-center justify-between mt-5'>
@@ -103,11 +116,11 @@ export default function Assistido() {
             </div>
             <div className=' flex flex-col w-full mr-5'>
               <label htmlFor="contactOne" className=' text-sm font-semibold ml-1'>Contato <span className=' text-red-600'>*</span></label>
-              <input required placeholder='(81) 98888-8888' type="text" name="contactOne" id="contactOne" className="registerInput" />
+              <input required placeholder='Apenas números' maxlength="11" pattern="[0-9]*" type="text" name="contactOne" id="contactOne" className="registerInput" />
             </div>
             <div className=' flex flex-col w-full mr-5'>
               <label htmlFor="contactTwo" className=' text-sm font-semibold ml-1'>Segundo Contato</label>
-              <input placeholder='(81) 98888-8888' type="text" name="contactTwo" id="contactTwo" className="registerInput" />
+              <input placeholder='Apenas números' maxlength="11" pattern="[0-9]*" type="text" name="contactTwo" id="contactTwo" className="registerInput" />
             </div>
           </div>
         </section>
@@ -127,14 +140,15 @@ export default function Assistido() {
             </div>
             <div className=' flex flex-col w-full mr-5'>
               <label htmlFor="responsibleCpfTwo" className=' text-sm font-semibold ml-1'>Cpf</label>
-              <input placeholder='000.000.000-00' type="text" name="responsibleCpfTwo" id="responsibleCpfTwo" className="registerInput" />
+              <input placeholder='Apenas números' maxlength="11" pattern="[0-9]*" type="text" name="responsibleCpfTwo" id="responsibleCpfTwo" className="registerInput" />
             </div>
           </div>
         </section>
         <div className=' w-full flex justify-center items-center mt-8 mb-8'>
           <div className=' w-[98%] border'></div>
         </div>
-        <div className=' flex justify-center items-center w-full mt-5 mb-6'>
+        <div className=' flex flex-col justify-center items-center w-full mt-5 mb-6'>
+          <h1 className=' text-xl mb-1'>{registerInfo}</h1>
           <button type='submit' className=' flex justify-center items-center p-2 border w-[80%] rounded-lg bg-[#3182B0] text-white font-semibold shadow-md hover:shadow-none hover:bg-white hover:text-[#3182B0] transition-all duration-200'>
             SALVAR
           </button>
