@@ -1,7 +1,8 @@
 'use client'
 
-import { NotLoggedRedirect, redirectEmployee, redirectResponsible } from '@/api/login'
+import { NotLoggedRedirect } from '@/api/login'
 import { jwtDecode } from "jwt-decode";
+import { redirect } from 'next/navigation';
 
 export default function Home() {
   const token = localStorage.getItem('session')
@@ -11,9 +12,10 @@ export default function Home() {
     const role = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
 
     if (role == 'Responsible') {
-      console.log('A ser feito.');
+      const id = decoded['ChildId']
+      redirect(`/assistido/${id}`)
     } else {
-      redirectEmployee()
+      redirect('/listagem/1')
     }
   }
 

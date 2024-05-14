@@ -3,6 +3,8 @@
 import { useState, useEffect } from 'react';
 import { GetAssistedData } from "@/api/assistedData"
 import { usePathname } from 'next/navigation'
+import { jwtDecode } from "jwt-decode";
+import { format, parseISO, differenceInYears } from 'date-fns'
 
 import * as LR from '@uploadcare/blocks';
 import Image from "next/image";
@@ -17,6 +19,8 @@ LR.registerBlocks(LR);
 export default function Profile() {
     const pathname = usePathname().split("/")
     const token = localStorage.getItem('session')
+    const decoded = jwtDecode(token);
+    const role = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
     const id = pathname[2]
     const [data, setData] = useState('')
 
@@ -60,13 +64,13 @@ export default function Profile() {
                 <nav className=" flex flex-col justify-start items-center w-64 bg-[#0000000e] max-md:hidden">
                     <div className=" bg-[#3182B0] flex justify-center items-center w-32 h-32 rounded-full mb-9 mt-8 overflow-hidden">
                         <Image className=" w-full"
-                            src='https://ucarecdn.com/5930a796-7602-4397-a65b-e098d8c499f0/teste.jpg'
+                            src={data.photo}
                             width={1000}
                             height={1000}
                             alt="profile"
                         />
                     </div>
-                    <ul className=" flex flex-col justify-evenly items-start w-full h-80">
+                    <ul className={` ${role == 'Responsible' ? 'hidden' : 'flex'} flex-col justify-evenly items-start w-full h-80`}>
                         <li className={`${colorDefine == "principal" ? "bg-[#66b7e64d]" : "bg-transparent"} w-full py-1 hover:bg-[#66b7e64d] transition duration-150`}>
                             <button onClick={setPrincipal} className="profilenav">
                                 <Image className=" w-4 mr-6 ml-6"
@@ -123,26 +127,26 @@ export default function Profile() {
                             </li>
                             <li className="flex flex-col mb-2">
                                 <span className="text-[#00000062] font-semibold">Data de Nascimento</span>
-                                <span className="font-medium">00/00/0000</span>
+                                <span className="font-medium">{data.birthDate ? format(parseISO(data.birthDate), 'dd/MM/yyyy') : 'Nome do Assistido'}</span>
                             </li>
                             <li className="flex flex-col">
                                 <span className="text-[#00000062] font-semibold">Idade</span>
-                                <span className="font-medium">00 Anos</span>
+                                <span className="font-medium">{data.birthDate ? `${differenceInYears(new Date(), parseISO(data.birthDate))} Anos` : 'Idade Indisponível'}</span>
                             </li>
                         </ul>
                         <div className="border border-black h-44"></div>
                         <ul className="p-4 mr-10">
                             <li className="flex flex-col mb-2">
                                 <span className="text-[#00000062] font-semibold">Responsável</span>
-                                <span className="font-medium">Nome do Responsavel</span>
+                                <span className="font-medium">{data.nameResponsible ? data.nameResponsible : 'Nome do Assistido'}</span>
                             </li>
                             <li className="flex flex-col mb-2">
                                 <span className="text-[#00000062] font-semibold">CPF</span>
-                                <span className="font-medium">000.000.000-00</span>
+                                <span className="font-medium">{data.cpfResponsible ? data.cpfResponsible : 'Nome do Assistido'}</span>
                             </li>
                             <li className="flex flex-col">
                                 <span className="text-[#00000062] font-semibold">Contato</span>
-                                <span className="font-medium">(81) 98888-8888</span>
+                                <span className="font-medium">{data.contact ? data.contact : 'Nome do Assistido'}</span>
                             </li>
                         </ul>
                     </section>
@@ -178,7 +182,7 @@ function Principal() {
                     </div>
                 </div>
                 <div className="collapse collapse-arrow bg-base-200 w-[90%] rounded-md bg-[#00000009] border mb-4">
-                    <input type="radio" name="my-accordion-2"/>
+                    <input type="radio" name="my-accordion-2" />
                     <div className="collapse-title text-xl font-medium">
                         Pré-análise
                     </div>
@@ -202,7 +206,7 @@ function Principal() {
                     </div>
                 </div>
                 <div className="collapse collapse-arrow bg-base-200 w-[90%] rounded-md bg-[#00000009] border mb-4">
-                    <input type="radio" name="my-accordion-2"/>
+                    <input type="radio" name="my-accordion-2" />
                     <div className="collapse-title text-xl font-medium">
                         Avaliação
                     </div>
@@ -213,7 +217,7 @@ function Principal() {
                     </div>
                 </div>
                 <div className="collapse collapse-arrow bg-base-200 w-[90%] rounded-md bg-[#00000009] border">
-                    <input type="radio" name="my-accordion-2"/>
+                    <input type="radio" name="my-accordion-2" />
                     <div className="collapse-title text-xl font-medium">
                         Programas
                     </div>

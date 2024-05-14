@@ -2,7 +2,6 @@
 
 import "../app/globals.css";
 import Image from "next/image";
-import User from "@/assets/person.svg"
 import Menu from "@/assets/menu.svg"
 import Home from "@/assets/home.svg"
 import Status from "@/assets/status.svg"
@@ -12,12 +11,14 @@ import Summary from "@/assets/sumary.svg"
 import Sheet from "@/assets/sheet.svg"
 import Logo from "@/assets/logo.png"
 import Profile from "@/assets/profile.svg"
-import Notification from '@/assets/notifications.svg'
 import { useState } from 'react';
+import { jwtDecode } from "jwt-decode";
 import Link from "next/link";
 
 export function Navbar() {
-
+    const token = localStorage.getItem('session')
+    const decoded = jwtDecode(token);
+    const role = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
     const [colapse, setColapse] = useState(true);
 
     const toggleSidebar = () => {
@@ -41,18 +42,6 @@ export function Navbar() {
                         />
                     </li>
                     <li className=" md:mr-9 flex md:justify-between justify-center items-center w-20 h-8">
-                        <button type="button">
-                            <Image className=" w-6 max-md:hidden"
-                                src={Notification}
-                                alt="Notification"
-                            />
-                        </button>
-                        <button type="button">
-                            <Image className=" w-6 max-md:hidden"
-                                src={User}
-                                alt="User"
-                            />
-                        </button>
                         <button type="button" onClick={toggleSidebar}>
                             <Image className=" w-8 md:hidden"
                                 src={Menu}
@@ -62,7 +51,7 @@ export function Navbar() {
                     </li>
                 </ul>
             </header>
-            <aside className=" fixed h-screen w-12 top-0 z-0 bg-[#3182B0] flex justify-center items-start max-md:-translate-x-full transition duration-300" id="sidebar">
+            <aside className={` ${role == 'Responsible'? 'hidden' : 'fixed'} h-screen w-12 top-0 z-0 bg-[#3182B0] flex justify-center items-start max-md:-translate-x-full transition duration-300`} id="sidebar">
                 <ul className=" mt-16 flex flex-col justify-between items-center w-full h-[88%]">
                     <li className=" mt-5">
                         <ul className=" flex flex-col justify-evenly items-center w-full">

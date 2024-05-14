@@ -40,7 +40,3 @@ export function NotLoggedRedirect() {
         redirect('/login')
     }
 }
-
-export function redirectEmployee() {
-    redirect('/listagem/1')
-}
