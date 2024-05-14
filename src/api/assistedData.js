@@ -1,6 +1,8 @@
+const APIURL = process.env.NEXT_PUBLIC_API_URL
+
 export async function GetAssistedData(id, token) {
     try {
-        const response = await fetch(`http://localhost:5149/api/childAssisted/${id}`, {
+        const response = await fetch(`${APIURL}/childAssisted/${id}`, {
             method: 'GET',
             cache: 'no-store',
             headers: {

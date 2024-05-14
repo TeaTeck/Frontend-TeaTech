@@ -14,6 +14,7 @@ export default function Lista() {
     const pathname = usePathname().split("/")
     const token = localStorage.getItem('session')
     const pageNumber = parseInt(pathname[2])
+    const [searchData, setSearchData] = useState('')
     const [assistedData, setAssistedData] = useState(
         <>
             <li className=" w-full flex justify-evenly items-center border border-[#00000015] shadow-sm">
@@ -37,7 +38,7 @@ export default function Lista() {
     useEffect(() => {
         const fetchAssistedData = async () => {
             let assisteds = []
-            const listContent = await listAssisted(pageNumber, token);
+            const listContent = await listAssisted(pageNumber, token, searchData);
             listContent.childAssisteds.forEach(child => {
                 let hidden = child.preAnalysisStatusCode == 1 ? "flex" : "hidden";
 
@@ -81,20 +82,28 @@ export default function Lista() {
         }
 
         fetchAssistedData();
-    }, []);
+    }, [searchData]);
+
+    function searchEvent(e) {
+        e.preventDefault()
+        const formData = e.target;
+        setSearchData(formData.elements[0].value)
+    }
 
     return (
         <main className=" mt-9 max-md:mt-28 ml-3 md:ml-14 w-[95%] flex flex-col justify-center items-center">
-            <div className=" flex justify-start items-center bg-[#0000000e] w-[90%] rounded-lg shadow-md">
-                <Image
-                    src={Search}
-                    width={20}
-                    height={20}
-                    alt="search"
-                    className=" ml-4 my-1"
-                />
+            <form onSubmit={searchEvent} className=" flex justify-start items-center bg-[#0000000e] w-[90%] rounded-lg shadow-md">
                 <input type="text" id="search" placeholder="Buscar Assistido" className=" outline-none bg-transparent w-full p-2 ml-2" />
-            </div>
+                <button type="submit">
+                    <Image
+                        src={Search}
+                        width={20}
+                        height={20}
+                        alt="search"
+                        className=" mr-5 my-1"
+                    />
+                </button>
+            </form>
             <section className=" w-[90%] mt-8">
                 <div className=" w-full py-3 pl-8 flex justify-start items-center bg-[#0003] shadow-lg">
                     <h2 className=" font-semibold">LISTA DE ASSISTIDOS</h2>

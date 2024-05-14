@@ -1,22 +1,27 @@
 'use client'
 
-import { NotLoggedRedirect } from '@/api/login'
-import { Navbar } from "@/components/navbar"
+import { NotLoggedRedirect, redirectEmployee, redirectResponsible } from '@/api/login'
+import { jwtDecode } from "jwt-decode";
 
 export default function Home() {
+  const token = localStorage.getItem('session')
 
-  NotLoggedRedirect()
+  if (token) {
+    const decoded = jwtDecode(token);
+    const role = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+
+    if (role == 'Responsible') {
+      console.log('A ser feito.');
+    } else {
+      redirectEmployee()
+    }
+  }
+
   function logout() {
     localStorage.clear()
     window.location.reload()
   }
 
-  return (
-    <>
-      <Navbar />
-      <main className=" md:ml-24 mt-8">
-        <button onClick={logout}>Logout</button>
-      </main>
-    </>
-  )
+  NotLoggedRedirect()
+  return <button onClick={logout}>Logout</button>
 }

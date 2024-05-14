@@ -1,8 +1,7 @@
 
-export async function listAssisted(pageNumber, token) {
-
+export async function listAssisted(pageNumber, token, key) {
     try {
-        const response = await fetch(`http://localhost:5149/api/childAssisted/filterByData?pageNumber=${pageNumber}&pageSize=5`, {
+        const response = await fetch(`http://localhost:5149/api/childAssisted/filterByData?data=${key}&pageNumber=${pageNumber}&pageSize=5`, {
             method: 'GET',
             cache: 'no-store',
             headers: {
