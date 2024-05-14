@@ -14,6 +14,6 @@ export function formatarTelefone(numero) {
 }
 
 export function formatarCPF(cpf) {
-    const formatado = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1-$2-$3-$4');
+    const formatado = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
     return formatado;
 }
