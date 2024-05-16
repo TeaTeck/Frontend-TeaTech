@@ -1,7 +1,8 @@
+const APIURL = process.env.NEXT_PUBLIC_API_URL
 
 export async function listAssisted(pageNumber, token, key) {
     try {
-        const response = await fetch(`http://localhost:5149/api/childAssisted/filterByData?data=${key}&pageNumber=${pageNumber}&pageSize=5`, {
+        const response = await fetch(`${APIURL}/childAssisted/filterByData?data=${key}&pageNumber=${pageNumber}&pageSize=5`, {
             method: 'GET',
             cache: 'no-store',
             headers: {

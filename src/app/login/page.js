@@ -1,7 +1,7 @@
 'use client'
 
 import { LoginHandler } from '@/api/login';
-import { emailValidation } from '@/api/validation';
+import { emailValidation } from '@/util/validation';
 import { useState } from "react";
 import Image from "next/image";
 import Lock from "@/assets/lock.svg";
@@ -20,7 +20,6 @@ export default function Login() {
 
     async function loginEvent(event) {
         event.preventDefault()
-        localStorage.clear()
 
         const formData = event.target;
         const userData = {

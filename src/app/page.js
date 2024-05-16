@@ -19,11 +19,5 @@ export default function Home() {
     }
   }
 
-  function logout() {
-    localStorage.clear()
-    window.location.reload()
-  }
-
   NotLoggedRedirect()
-  return <button onClick={logout}>Logout</button>
 }

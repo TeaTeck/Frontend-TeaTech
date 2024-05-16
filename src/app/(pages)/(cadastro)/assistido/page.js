@@ -2,7 +2,7 @@
 
 import { RegisterAssistido } from '@/api/register'
 import { NotLoggedRedirect } from '@/api/login'
-import { formatarCPF, formatarTelefone } from '@/api/validation'
+import { formatarCPF, formatarTelefone } from '@/util/validation'
 import Image from 'next/image'
 import User from "@/assets/person.svg";
 import { uploadDirect } from '@uploadcare/upload-client'
