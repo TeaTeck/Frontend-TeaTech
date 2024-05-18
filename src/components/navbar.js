@@ -19,6 +19,15 @@ export function Navbar() {
     const decoded = jwtDecode(token);
     const role = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
     const [colapse, setColapse] = useState(true);
+    const [showLogout, setShowLogout] = useState('hidden')
+
+    function showLogoutHandler() {
+        if (showLogout == 'hidden') {
+            setShowLogout('fixed')
+        } else {
+            setShowLogout('hidden')
+        }
+    }
 
     function logout() {
         localStorage.clear()
@@ -46,7 +55,9 @@ export function Navbar() {
                         />
                     </li>
                     <li className=" flex justify-center items-center w-14 h-14 mr-20">
-                        <button onClick={logout} className=" text-[#3182B0] font-semibold hover:drop-shadow-lg drop-shadow-[#3182B0]">Desconectar</button>
+                        <button onClick={showLogoutHandler} className=" text-[#3182B0] font-semibold hover:drop-shadow-lg drop-shadow-[#3182B0]">
+                            Desconectar
+                        </button>
                     </li>
                     <li className=" md:mr-9 md:hidden flex md:justify-between justify-center items-center w-20 h-8">
                         <button type="button" onClick={toggleSidebar}>
@@ -71,14 +82,6 @@ export function Navbar() {
                                 </Link>
                             </li>
                             <li className="sidemenu">
-                                <Link href="/listagem/1">
-                                    <Image className=" w-6"
-                                        src={Summary}
-                                        alt="Summary"
-                                    />
-                                </Link>
-                            </li>
-                            <li className="sidemenu">
                                 <Link href="/assistido">
                                     <Image className=" w-6"
                                         src={Sheet}
@@ -98,6 +101,15 @@ export function Navbar() {
                     </li>
                 </ul>
             </aside>
+            <section className={` ${showLogout} w-screen h-screen bg-[#00000086] flex justify-center items-center top-0 z-10`}>
+                <div className=" w-80 border shadow-lg rounded-lg p-4 bg-white">
+                    <label className=" font-semibold">Tem certeza que quer desconectar?</label>
+                    <div className=" flex mt-5">
+                        <button onClick={logout} className=" border px-6 py-2 mr-5 rounded-lg text-white bg-[#3182B0] hover:bg-white hover:text-[#3182B0] transition duration-150">Sim, desconectar</button>
+                        <button onClick={showLogoutHandler} className=" text-[#3182B0]">Cancelar</button>
+                    </div>
+                </div>
+            </section>
         </>
     )
 }

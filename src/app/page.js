@@ -1,6 +1,6 @@
 'use client'
 
-import { NotLoggedRedirect } from '@/api/login'
+import { Navbar } from "@/components/navbar"
 import { jwtDecode } from "jwt-decode";
 import { redirect } from 'next/navigation';
 
@@ -19,5 +19,10 @@ export default function Home() {
     }
   }
 
-  NotLoggedRedirect()
+  return (
+    <>
+      <Navbar />
+      <span className="loading loading-ring loading-xs"></span>
+    </>
+  )
 }

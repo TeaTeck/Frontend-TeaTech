@@ -55,14 +55,13 @@ export default function Login() {
                     />
                     <input required type="text" name="login" id="login" placeholder="Email" className=" ml-1 pl-1 w-full h-full outline-none" />
                 </div>
-                <div className=" flex w-4/5 p-[10px] rounded-md bg-white mt-5 shadow-md">
+                <div className=" flex w-4/5 p-[10px] rounded-md bg-white mt-5 shadow-md mb-[2rem]">
                     <Image className=" w-5"
                         src={Lock}
                         alt="Lock"
                     />
                     <input required type="password" name="pwd" id="pwd" placeholder="Senha" className=" ml-1 pl-1 w-full h-full outline-none" />
                 </div>
-                <Link href="/login" className=" mb-[1.5rem] mt-2 text-white font-medium">Esqueceu a Senha?</Link>
                 <span className=" text-red-600 text-sm font-bold rounded-md text-center">{(loginError)}</span>
                 <button type="submit" className=" mt-2 mb-2 bg-[#01499C] p-2 text-white font-semibold w-40 rounded-lg shadow-md hover:bg-white hover:text-[#01499C] transition duration-300">ACESSAR</button>
             </form>

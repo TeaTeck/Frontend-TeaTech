@@ -5,6 +5,7 @@ import { GetAssistedData } from "@/api/assistedData"
 import { usePathname } from 'next/navigation'
 import { jwtDecode } from "jwt-decode";
 import { format, parseISO, differenceInYears } from 'date-fns'
+import { uploadDirect } from '@uploadcare/upload-client'
 
 import * as LR from '@uploadcare/blocks';
 import Image from "next/image";
@@ -12,7 +13,6 @@ import Preanalise from "@/assets/preanalise.svg"
 import Avaliar from "@/assets/avaliar.svg"
 import Programa from "@/assets/programa.svg"
 import Profile3 from "@/assets/profile3.svg"
-import Pei from "@/assets/pei.svg"
 
 LR.registerBlocks(LR);
 
@@ -22,14 +22,15 @@ export default function Profile() {
     const decoded = jwtDecode(token);
     const role = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
     const id = pathname[2]
-    const [data, setData] = useState('')
+    const [generalData, setGeneralData] = useState('')
+
 
     useEffect(() => {
         const fetchAssistedData = async () => {
             const assistedData = await GetAssistedData(id, token)
-            setData(assistedData)
+            setGeneralData(assistedData)
 
-            console.log(data)
+            console.log(generalData)
         }
 
         fetchAssistedData();
@@ -53,10 +54,6 @@ export default function Profile() {
         setPageContent(Programas())
         setColorDefine("programas")
     }
-    function setPEI() {
-        setPageContent(Peipdi())
-        setColorDefine("pei")
-    }
 
     return (
         <>
@@ -64,7 +61,7 @@ export default function Profile() {
                 <nav className=" flex flex-col justify-start items-center w-64 bg-[#0000000e] max-md:hidden">
                     <div className=" bg-[#3182B0] flex justify-center items-center w-32 h-32 rounded-full mb-9 mt-8 overflow-hidden">
                         <Image className=" w-full"
-                            src={data.photo}
+                            src={generalData.photo}
                             width={1000}
                             height={1000}
                             alt="profile"
@@ -107,15 +104,6 @@ export default function Profile() {
                                 <span>PROGRAMAS</span>
                             </button>
                         </li>
-                        <li className={`${colorDefine == "pei" ? "bg-[#66b7e64d]" : "bg-transparent"} w-full py-1 hover:bg-[#66b7e64d] transition duration-150`}>
-                            <button onClick={setPEI} className="profilenav">
-                                <Image className=" w-4 mr-6 ml-6"
-                                    src={Pei}
-                                    alt="Archive"
-                                />
-                                <span>PEI/PDI</span>
-                            </button>
-                        </li>
                     </ul>
                 </nav>
                 <div className=" w-screen">
@@ -123,30 +111,30 @@ export default function Profile() {
                         <ul className="p-4 ml-10">
                             <li className="flex flex-col mb-2">
                                 <span className="text-[#00000062] font-semibold">Nome</span>
-                                <span className="font-medium">{data.name ? data.name : 'Nome do Assistido'}</span>
+                                <span className="font-medium">{generalData.name ? generalData.name : 'Nome do Assistido'}</span>
                             </li>
                             <li className="flex flex-col mb-2">
                                 <span className="text-[#00000062] font-semibold">Data de Nascimento</span>
-                                <span className="font-medium">{data.birthDate ? format(parseISO(data.birthDate), 'dd/MM/yyyy') : 'Nome do Assistido'}</span>
+                                <span className="font-medium">{generalData.birthDate ? format(parseISO(generalData.birthDate), 'dd/MM/yyyy') : 'Nome do Assistido'}</span>
                             </li>
                             <li className="flex flex-col">
                                 <span className="text-[#00000062] font-semibold">Idade</span>
-                                <span className="font-medium">{data.birthDate ? `${differenceInYears(new Date(), parseISO(data.birthDate))} Anos` : 'Idade Indisponível'}</span>
+                                <span className="font-medium">{generalData.birthDate ? `${differenceInYears(new Date(), parseISO(generalData.birthDate))} Anos` : 'Idade Indisponível'}</span>
                             </li>
                         </ul>
                         <div className="border border-black h-44"></div>
                         <ul className="p-4 mr-10">
                             <li className="flex flex-col mb-2">
                                 <span className="text-[#00000062] font-semibold">Responsável</span>
-                                <span className="font-medium">{data.nameResponsible ? data.nameResponsible : 'Nome do Assistido'}</span>
+                                <span className="font-medium">{generalData.nameResponsible ? generalData.nameResponsible : 'Nome do Assistido'}</span>
                             </li>
                             <li className="flex flex-col mb-2">
                                 <span className="text-[#00000062] font-semibold">CPF</span>
-                                <span className="font-medium">{data.cpfResponsible ? data.cpfResponsible : 'Nome do Assistido'}</span>
+                                <span className="font-medium">{generalData.cpfResponsible ? generalData.cpfResponsible : 'Nome do Assistido'}</span>
                             </li>
                             <li className="flex flex-col">
                                 <span className="text-[#00000062] font-semibold">Contato</span>
-                                <span className="font-medium">{data.contact ? data.contact : 'Nome do Assistido'}</span>
+                                <span className="font-medium">{generalData.contact ? generalData.contact : 'Nome do Assistido'}</span>
                             </li>
                         </ul>
                     </section>
@@ -158,6 +146,7 @@ export default function Profile() {
 }
 
 function Principal() {
+
     return (
         <>
             <section className=" flex flex-col justify-center items-center w-full mt-16 mb-6">
@@ -216,31 +205,14 @@ function Principal() {
                         </div>
                     </div>
                 </div>
-                <div className="collapse collapse-arrow bg-base-200 w-[90%] rounded-md bg-[#00000009] border">
+                <div className="collapse collapse-arrow bg-base-200 w-[90%] rounded-md bg-[#00000009] border mb-4">
                     <input type="radio" name="my-accordion-2" />
                     <div className="collapse-title text-xl font-medium">
-                        Programas
+                        Relatório
                     </div>
                     <div className="collapse-content">
-                        <div className=" w-full bg-white p-3 rounded-md flex justify-start items-center mb-4">
-                            <span className=" font-semibold mr-4">Protocolo:</span>
-                            <p className=" text-[#0000005e]">Protocolo de Teste</p>
-                        </div>
-                        <div className=" w-full bg-white p-3 rounded-md flex justify-start items-center mb-4">
-                            <span className=" font-semibold mr-4">Aplicador:</span>
-                            <p className="text-[#0000005e]">Aplicador de Teste</p>
-                        </div>
-                        <div className=" w-full bg-white p-3 rounded-md flex justify-start items-center mb-4">
-                            <span className=" font-semibold mr-4">Programa:</span>
-                            <p className="text-[#0000005e]">Programa de Teste</p>
-                        </div>
-                        <div className=" w-full bg-white p-3 rounded-md flex justify-start items-center mb-4">
-                            <span className=" font-semibold mr-4">Atividade:</span>
-                            <p className=" text-[#0000005e]">Atividade de Teste</p>
-                        </div>
-                        <div className=" w-full bg-white p-3 rounded-md flex justify-start items-center">
-                            <span className=" font-semibold mr-4">Estímulos Utilizados:</span>
-                            <p className=" text-[#0000005e]">Estímulos de Teste</p>
+                        <div className=" w-full bg-white p-3 rounded-md flex justify-between items-center mb-4">
+                            <span className=" font-semibold text-[#0000005e] mr-4">Abrir Arquivo</span>
                         </div>
                     </div>
                 </div>
@@ -280,35 +252,33 @@ function Analise() {
 }
 
 function Avaliacao() {
+    async function updadeAssessment(e) {
+        e.preventDefault();
+        const form = e.target;
+        const formData = new FormData(form);
+        const response = await uploadDirect(formData.get('assessment'), {
+            publicKey: 'a2166f02a764165d9357',
+            store: 'auto',
+        })
+
+        console.log(response)
+    }
+
     return (
         <>
-            <section className=" flex flex-col justify-center items-center w-full">
+            <form onSubmit={updadeAssessment} className=" flex flex-col justify-center items-center w-full">
                 <div className=" p-3 flex flex-col w-[90%] rounded-md bg-[#00000009] mt-20">
                     <div className=" font-semibold mb-1">Avaliação</div>
                     <div className=" w-full bg-white p-3 rounded-md flex justify-between items-center">
-                        <span className=" font-semibold text-[#00000042]">Anexar Arquivo</span>
-                        <lr-config
-                            ctx-name="my-uploader"
-                            pubkey="a2166f02a764165d9357"
-                            maxLocalFileSizeBytes={10000000}
-                            multiple={false}
-                            imgOnly={true}
-                            sourceList="local, camera"
-                            useCloudImageEditor={false}
-                        ></lr-config>
-                        <lr-file-uploader-regular
-                            css-src="https://cdn.jsdelivr.net/npm/@uploadcare/blocks@0.35.2/web/lr-file-uploader-regular.min.css"
-                            ctx-name="my-uploader"
-                            class="my-config"
-                        ></lr-file-uploader-regular>
+                        <input required id='assessment' name="assessment" type="file" accept='.png,.jpg' className="file-input file-input-ghost w-full" />
                     </div>
                 </div>
                 <div className=" p-2 mt-14 flex justify-center items-center mb-6">
-                    <button className=" mt-10 py-2 px-20 bg-[#3082B0] rounded-md text-white border-2 border-[#3082B0]">
+                    <button type='submit' className=" mt-10 py-2 px-20 bg-[#3082B0] rounded-md text-white border-2 border-[#3082B0]">
                         Salvar
                     </button>
                 </div>
-            </section>
+            </form>
         </>
     )
 }
@@ -316,15 +286,48 @@ function Avaliacao() {
 function Programas() {
     return (
         <>
-            <h1>Programas</h1>
-        </>
-    )
-}
-
-function Peipdi() {
-    return (
-        <>
-            <h1>PEI/PDI</h1>
+            <form className=" p-2 mt-2 flex flex-col justify-center items-center">
+                <div className=" w-[90%] mb-4 flex flex-col">
+                    <label className=" font-bold ml-2">Protocolo</label>
+                    <select class="select select-bordered border-black shadow-md w-full" name='protocolType' id='protocolType'>
+                        <option disabled selected>Não Informado</option>
+                        <option>Normal Apple</option>
+                        <option>Normal Orange</option>
+                        <option>Normal Tomato</option>
+                    </select>
+                </div>
+                <div className=" w-[90%] mb-4 flex flex-col">
+                    <label className=" font-bold ml-2">Aplicador</label>
+                    <select class="select select-bordered border-black shadow-md w-full" id='idApplicator'>
+                        <option disabled selected>Não Informado</option>
+                        <option>Normal Apple</option>
+                        <option>Normal Orange</option>
+                        <option>Normal Tomato</option>
+                    </select>
+                </div>
+                <div className=" w-[90%] mb-4 flex flex-col">
+                    <label className=" font-bold ml-2">Definir Programa</label>
+                    <select class="select select-bordered border-black shadow-md w-full" name='programType' id='programType'>
+                        <option disabled selected>Não Informado</option>
+                        <option>Normal Apple</option>
+                        <option>Normal Orange</option>
+                        <option>Normal Tomato</option>
+                    </select>
+                </div>
+                <div className=" w-[90%] mb-4">
+                    <label className=" font-bold ml-2">Descrição da Atividade</label>
+                    <input className=" w-full p-[10px] border border-gray-700 rounded-lg bg-whit shadow-md" type="text" name="stimuliUsed" id="stimuliUsed" placeholder="Digite Aqui" />
+                </div>
+                <div className=" w-[90%]">
+                    <label className=" font-bold ml-2">Estímulos Utilizados</label>
+                    <input className=" w-full p-[10px] border border-gray-700 rounded-lg bg-whit shadow-md" type="text" name="activityDescription" id="activityDescription" placeholder="Digite Aqui" />
+                </div>
+                <div className=" p-2 mt-4 flex justify-center items-center">
+                    <button className=" mb-2 py-2 px-20 bg-[#3082B0] rounded-md text-white border-2 border-[#3082B0]">
+                        Salvar
+                    </button>
+                </div>
+            </form>
         </>
     )
 }
