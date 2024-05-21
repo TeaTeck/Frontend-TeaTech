@@ -1,7 +1,7 @@
 const APIURL = process.env.NEXT_PUBLIC_API_URL
 
-export async function UpdateAssessment(body, token, id) {
-    const response = await fetch(`${APIURL}/assessment/update/${id}`, {
+export async function UpdateAnalises(body, token, id) {
+    const response = await fetch(`${APIURL}/preAnalysis/update/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

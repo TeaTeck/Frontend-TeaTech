@@ -35,7 +35,7 @@ export default function Assistido() {
     formData.set('contactTwo', formatarTelefone(formData.get('contactTwo')))
 
     const jsonObject = Object.fromEntries(formData);
-    const response = RegisterAssistido(jsonObject, token)
+    const response = await RegisterAssistido(jsonObject, token)
     if (response == '200') {
       setRegisterInfo('Cadastro Realizado com Sucesso!')
     } else {

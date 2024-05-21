@@ -40,7 +40,7 @@ export default function Lista() {
             let assisteds = []
             const listContent = await listAssisted(pageNumber, token, searchData);
             if (listContent) {
-                listContent.childAssisteds.forEach(child => {
+                listContent.filterChildAssisteds.forEach(child => {
                     let hidden = child.preAnalysisStatusCode == 1 ? "flex" : "hidden";
 
                     assisteds.push(
