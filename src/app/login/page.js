@@ -1,20 +1,32 @@
 'use client'
 
-import { LoginHandler } from '@/api/login';
+import { LoginHandler, getCookie } from '@/api/login';
 import { emailValidation } from '@/util/validation';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Lock from "@/assets/lock.svg";
 import Logo from "@/assets/logo.png"
 import User from "@/assets/person.svg";
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 export default function Login() {
     const [loginError, setLoginError] = useState('');
+    const [token, setToken] = useState();
     const router = useRouter()
 
-    if (localStorage.getItem('session')) {
+    useEffect(() => {
+        const getToken = async () => {
+            const t = await getCookie()
+            if (t) {
+                setToken(t)
+            }
+        }
+
+        getToken();
+    }, []);
+
+
+    if (token) {
         router.push('/')
     }
 

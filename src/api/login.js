@@ -1,8 +1,12 @@
+'use server'
+
 import { redirect } from 'next/navigation'
+import { cookies } from 'next/headers'
 
 const APIURL = process.env.NEXT_PUBLIC_API_URL
 
 export async function LoginHandler(body) {
+    const cookieStore = cookies()
     try {
         const response = await fetch(`${APIURL}/user/login`, {
             method: 'POST',
@@ -14,8 +18,8 @@ export async function LoginHandler(body) {
 
         const data = await response.json()
         if (response.status == 200) {
-            localStorage.setItem('session', data.token)
-            console.log(localStorage.getItem('session'))
+            cookieStore.set('session', data.token)
+            console.log(cookieStore.get('session'))
             return true
         } else {
             return false
@@ -25,18 +29,21 @@ export async function LoginHandler(body) {
     }
 }
 
-export function IsLogged() {
-    if (localStorage.getItem('session')) {
+export async function IsLogged() {
+    const cookieStore = cookies()
+    if (cookieStore.get('session')) {
         return true
     }
-
     return false
 }
 
-export function NotLoggedRedirect() {
-    const result = IsLogged();
+export async function getCookie() {
+    const cookieStore = cookies()
+    return cookieStore.get('session')
+}
 
-    if (result == false) {
-        redirect('/login')
-    }
+export async function logout(){
+    const cookieStore = cookies()
+    cookieStore.delete('session')
+    return true
 }

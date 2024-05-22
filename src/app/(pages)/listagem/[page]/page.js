@@ -1,5 +1,6 @@
 'use client'
 
+import { getCookie } from '@/api/login'
 import { listAssisted } from "@/api/assistedList"
 import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react';
@@ -12,7 +13,6 @@ import Edit from "@/assets/pencil-square.svg"
 
 export default function Lista() {
     const pathname = usePathname().split("/")
-    const token = localStorage.getItem('session')
     const pageNumber = parseInt(pathname[2])
     const [searchData, setSearchData] = useState('')
     const [assistedData, setAssistedData] = useState(
@@ -37,8 +37,9 @@ export default function Lista() {
 
     useEffect(() => {
         const fetchAssistedData = async () => {
+            const t = await getCookie()
             let assisteds = []
-            const listContent = await listAssisted(pageNumber, token, searchData);
+            const listContent = await listAssisted(pageNumber, t.value, searchData);
             if (listContent) {
                 listContent.filterChildAssisteds.forEach(child => {
                     let hidden = child.preAnalysisStatusCode == 1 ? "flex" : "hidden";
@@ -46,13 +47,13 @@ export default function Lista() {
                     assisteds.push(
                         <li key={child.id} className=" w-full flex justify-evenly items-center border border-[#00000015] shadow-sm">
                             <div className="list flex">
-                                <spam>{child.name}</spam>
+                                <span>{child.name}</span>
                             </div>
                             <div className="list md:flex hidden">
-                                <spam>{child.email}</spam>
+                                <span>{child.email}</span>
                             </div>
                             <div className="list md:flex hidden">
-                                <spam>{child.contact}</spam>
+                                <span>{child.contact}</span>
                             </div>
                             <div className="list flex justify-between">
                                 <Link href={`/assistido/${child.id}`} className={` mr-2 bg-[#c22121] rounded-lg p-2 text-white font-bold items-center justify-center ${hidden} text-[10px]`}>
@@ -114,16 +115,16 @@ export default function Lista() {
                     <ul className=" grid auto-rows-auto shadow-md h-full overflow-y-auto">
                         <li key="assisted" className=" w-full flex justify-evenly items-center border border-[#00000015] shadow-sm font-medium">
                             <div className="list flex">
-                                <spam>Nome</spam>
+                                <span>Nome</span>
                             </div>
                             <div className="list md:flex hidden">
-                                <spam>Email</spam>
+                                <span>Email</span>
                             </div>
                             <div className="list md:flex hidden">
-                                <spam>Contato</spam>
+                                <span>Contato</span>
                             </div>
                             <div className="list flex">
-                                <spam>Ações</spam>
+                                <span>Ações</span>
                             </div>
                         </li>
                         {assistedData}

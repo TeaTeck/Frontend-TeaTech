@@ -1,28 +1,26 @@
 'use client'
 
-import { Navbar } from "@/components/navbar"
+import { getCookie } from '@/api/login'
 import { jwtDecode } from "jwt-decode";
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function Home() {
-  const token = localStorage.getItem('session')
+  const router = useRouter()
 
-  if (token) {
-    const decoded = jwtDecode(token);
-    const role = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
-
-    if (role == 'Responsible') {
-      const id = decoded['ChildId']
-      redirect(`/assistido/${id}`)
-    } else {
-      redirect('/listagem/1')
+  useEffect(() => {
+    const getToken = async () => {
+      const t = await getCookie()
+      if (t) {
+        const d = jwtDecode(t.value)
+        if (d['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] == 'Responsible') {
+          router.push(`/assistido/${d['ChildId']}`)
+        } else {
+          router.push('/listagem/1')
+        }
+      }
     }
-  }
 
-  return (
-    <>
-      <Navbar />
-      <span className="loading loading-ring loading-xs"></span>
-    </>
-  )
+    getToken();
+  }, []);
 }

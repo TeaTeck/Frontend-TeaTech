@@ -1,25 +1,45 @@
 'use client'
 
 import "../app/globals.css";
-import { NotLoggedRedirect } from '@/api/login'
+import { IsLogged, getCookie, logout } from '@/api/login'
 import Image from "next/image";
 import Menu from "@/assets/menu.svg"
 import Home from "@/assets/home.svg"
-import Summary from "@/assets/sumary.svg"
 import Sheet from "@/assets/sheet.svg"
 import Logo from "@/assets/logo.png"
 import Profile from "@/assets/profile.svg"
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { jwtDecode } from "jwt-decode";
 import Link from "next/link";
+import { useRouter } from 'next/navigation';
 
 export function Navbar() {
-    NotLoggedRedirect()
-    const token = localStorage.getItem('session')
-    const decoded = jwtDecode(token);
-    const role = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
     const [colapse, setColapse] = useState(true);
     const [showLogout, setShowLogout] = useState('hidden')
+    const [role, setRole] = useState()
+    const router = useRouter()
+
+    useEffect(() => {
+        const logged = async () => {
+            const islogged = await IsLogged()
+            if (!islogged) {
+                router.push('/login')
+            }
+        }
+        logged()
+    }, [])
+
+    useEffect(() => {
+        const getToken = async () => {
+            const t = await getCookie()
+            if (t) {
+                const d = jwtDecode(t.value)
+                setRole(d['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'])
+            }
+        }
+
+        getToken();
+    }, []);
 
     function showLogoutHandler() {
         if (showLogout == 'hidden') {
@@ -29,9 +49,12 @@ export function Navbar() {
         }
     }
 
-    function logout() {
-        localStorage.clear()
-        window.location.reload()
+    async function logoutHandler() {
+        const l = await logout()
+        console.log(l);
+        if (l) {
+            window.location.reload()
+        }
     }
 
     const toggleSidebar = () => {
@@ -105,7 +128,7 @@ export function Navbar() {
                 <div className=" w-80 border shadow-lg rounded-lg p-4 bg-white">
                     <label className=" font-semibold">Tem certeza que quer desconectar?</label>
                     <div className=" flex mt-5">
-                        <button onClick={logout} className=" border px-6 py-2 mr-5 rounded-lg text-white bg-[#3182B0] hover:bg-white hover:text-[#3182B0] transition duration-150">Sim, desconectar</button>
+                        <button onClick={logoutHandler} className=" border px-6 py-2 mr-5 rounded-lg text-white bg-[#3182B0] hover:bg-white hover:text-[#3182B0] transition duration-150">Sim, desconectar</button>
                         <button onClick={showLogoutHandler} className=" text-[#3182B0]">Cancelar</button>
                     </div>
                 </div>

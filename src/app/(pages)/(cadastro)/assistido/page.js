@@ -1,7 +1,7 @@
 'use client'
 
+import { getCookie } from '@/api/login'
 import { RegisterAssistido } from '@/api/register'
-import { NotLoggedRedirect } from '@/api/login'
 import { formatarCPF, formatarTelefone } from '@/util/validation'
 import Image from 'next/image'
 import User from "@/assets/person.svg";
@@ -12,12 +12,11 @@ export default function Assistido() {
   const today = new Date().toISOString().split('T')[0];
   const [registerInfo, setRegisterInfo] = useState('');
 
-  NotLoggedRedirect()
   async function registerEvent(e) {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
-    const token = localStorage.getItem('session')
+    const t = await getCookie()
 
     const fileData = [formData.get('photo'), formData.get('medicalRecord')];
 
@@ -35,7 +34,7 @@ export default function Assistido() {
     formData.set('contactTwo', formatarTelefone(formData.get('contactTwo')))
 
     const jsonObject = Object.fromEntries(formData);
-    const response = await RegisterAssistido(jsonObject, token)
+    const response = await RegisterAssistido(jsonObject, t.value)
     if (response == '200') {
       setRegisterInfo('Cadastro Realizado com Sucesso!')
     } else {
@@ -45,7 +44,7 @@ export default function Assistido() {
 
   return (
     <main className=" mt-5 md:ml-14 flex justify-center items-center w-[95%]">
-      <form onSubmit={registerEvent} enctype="multipart/form-data" className=' w-[90%]'>
+      <form onSubmit={registerEvent} encType="multipart/form-data" className=' w-[90%]'>
         <h1 className=' text-xl font-bold ml-14 mb-6'>Cadastro do Assistido</h1>
         <div className=' w-full flex justify-center items-center mb-6'>
           <div className=' w-[98%] border'></div>
@@ -59,6 +58,7 @@ export default function Assistido() {
                 width={70}
                 height={70}
                 className=' mt-6'
+                alt='profile'
               />
               <input required id='photo' name="photo" type="file" accept='.png,.jpg' className="file-input file-input-bordered file-input-xs" />
             </div>
@@ -106,7 +106,7 @@ export default function Assistido() {
             </div>
             <div className=' flex flex-col w-full mr-5'>
               <label htmlFor="responsibleCpfOne" className=' text-sm font-semibold ml-1'>Cpf <span className=' text-red-600'>*</span></label>
-              <input required placeholder='Apenas números' maxlength="11" pattern="[0-9]*" type="text" name="responsibleCpfOne" id="responsibleCpfOne" className="registerInput" />
+              <input required placeholder='Apenas números' maxLength="11" pattern="[0-9]*" type="text" name="responsibleCpfOne" id="responsibleCpfOne" className="registerInput" />
             </div>
           </div>
           <div className=' flex items-center justify-between mt-5'>
@@ -116,11 +116,11 @@ export default function Assistido() {
             </div>
             <div className=' flex flex-col w-full mr-5'>
               <label htmlFor="contactOne" className=' text-sm font-semibold ml-1'>Contato <span className=' text-red-600'>*</span></label>
-              <input required placeholder='Apenas números' maxlength="11" pattern="[0-9]*" type="text" name="contactOne" id="contactOne" className="registerInput" />
+              <input required placeholder='Apenas números' maxLength="11" pattern="[0-9]*" type="text" name="contactOne" id="contactOne" className="registerInput" />
             </div>
             <div className=' flex flex-col w-full mr-5'>
               <label htmlFor="contactTwo" className=' text-sm font-semibold ml-1'>Segundo Contato</label>
-              <input placeholder='Apenas números' maxlength="11" pattern="[0-9]*" type="text" name="contactTwo" id="contactTwo" className="registerInput" />
+              <input placeholder='Apenas números' maxLength="11" pattern="[0-9]*" type="text" name="contactTwo" id="contactTwo" className="registerInput" />
             </div>
           </div>
         </section>
@@ -140,7 +140,7 @@ export default function Assistido() {
             </div>
             <div className=' flex flex-col w-full mr-5'>
               <label htmlFor="responsibleCpfTwo" className=' text-sm font-semibold ml-1'>Cpf</label>
-              <input placeholder='Apenas números' maxlength="11" pattern="[0-9]*" type="text" name="responsibleCpfTwo" id="responsibleCpfTwo" className="registerInput" />
+              <input placeholder='Apenas números' maxLength="11" pattern="[0-9]*" type="text" name="responsibleCpfTwo" id="responsibleCpfTwo" className="registerInput" />
             </div>
           </div>
         </section>

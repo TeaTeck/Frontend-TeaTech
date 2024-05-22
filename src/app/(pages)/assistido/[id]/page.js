@@ -1,5 +1,6 @@
 'use client'
 
+import { getCookie } from '@/api/login'
 import { useState, useEffect } from 'react';
 import { GetAssistedData } from "@/api/assistedData"
 import { usePathname } from 'next/navigation'
@@ -24,32 +25,41 @@ LR.registerBlocks(LR);
 
 export default function Profile() {
     const pathname = usePathname().split("/")
-    const token = localStorage.getItem('session')
-    const decoded = jwtDecode(token);
-    const role = decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
     const id = pathname[2]
+    const [role, setRole] = useState()
     const [generalData, setGeneralData] = useState('')
     const [applicatoresData, setApplicatoresData] = useState('')
     const [pageContent, setPageContent] = useState()
     const [colorDefine, setColorDefine] = useState("principal")
 
     useEffect(() => {
-        const fetchApplicatores = async () => {
-            const applicatoresData = await listApplicatores(token)
-            setApplicatoresData(applicatoresData)
+        const getToken = async () => {
+            const t = await getCookie()
+            if (t) {
+                const d = jwtDecode(t.value)
+                setRole(d['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'])
+            }
         }
 
-        fetchApplicatores();
-    }, []);
-
-    useEffect(() => {
         const fetchAssistedData = async () => {
-            const assistedData = await GetAssistedData(id, token)
+            const t = await getCookie()
+            const assistedData = await GetAssistedData(id, t.value)
             setGeneralData(assistedData)
             setPageContent(Principal(assistedData))
         }
 
+        getToken();
         fetchAssistedData();
+    }, []);
+
+    useEffect(() => {
+        const fetchApplicatores = async () => {
+            const t = await getCookie()
+            const applicatoresData = await listApplicatores(t.value)
+            setApplicatoresData(applicatoresData)
+        }
+
+        fetchApplicatores();
     }, []);
 
     function setPrincipal() {
@@ -341,7 +351,7 @@ function Programas(applicatoresData, id) {
             stimuliUsed: jsonObject['stimuliUsed'],
             idApplicator: document.getElementById('idApplicator').value,
             protocolType: Number(jsonObject['protocolType']),
-            programType:  Number(jsonObject['programType'])
+            programType: Number(jsonObject['programType'])
         }
 
         const response = await UpdateProgram(body, token, id)
