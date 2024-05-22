@@ -1,6 +1,6 @@
 'use client'
 
-import { getCookie } from '@/api/login'
+import { getCookie, IsLogged } from '@/api/login'
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
@@ -10,6 +10,12 @@ export default function Home() {
 
   useEffect(() => {
     const getToken = async () => {
+      const logged = await IsLogged()
+      if (!logged) {
+        router.push('/login')
+      }
+
+
       const t = await getCookie()
       if (t) {
         const d = jwtDecode(t.value)
