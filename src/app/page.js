@@ -15,7 +15,6 @@ export default function Home() {
         router.push('/login')
       }
 
-
       const t = await getCookie()
       if (t) {
         const d = jwtDecode(t.value)
